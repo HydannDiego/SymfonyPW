@@ -2,4 +2,5 @@
 
 ## PROJET PW - SAFER
 
-### Collaborateur : Diego Poupiot et Sacha Fernandez-Soltane
+### Collaborateurs : Diego Poupiot, Sacha Fernandez-Soltane et Tien Truong
+
