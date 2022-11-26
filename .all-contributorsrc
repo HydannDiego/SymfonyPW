@@ -7,10 +7,15 @@
   "commitConvention": "angular",
   "contributors": [
     {
+      "login": "SachaFernandezSoltane",
+      "name": "SachaFernandezSoltane",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77554766?v=4",
+      "profile": "https://github.com/SachaFernandezSoltane",
+
       "login": "HydannDiego",
       "name": "Diego",
       "avatar_url": "https://avatars.githubusercontent.com/u/102865023?v=4",
-      "profile": "http://diegopoupiot.live",
+      "profile": "https://github.com/HydannDiego",
       "contributions": [
         "code"
       ]
