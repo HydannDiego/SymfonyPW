@@ -1,6 +1,6 @@
 # SymfonyPW
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## PROJET PW - SAFER
@@ -28,7 +28,8 @@ de projets.
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="http://diegopoupiot.live"><img src="https://avatars.githubusercontent.com/u/102865023?v=4?s=100" width="100px;" alt="Diego"/><br /><sub><b>Diego</b></sub></a><br /><a href="https://github.com/HydannDiego/SymfonyPW/commits?author=HydannDiego" title="Code">💻</a></td>
+      <td align="center"><a href="https://github.com/HydannDiego"><img src="https://avatars.githubusercontent.com/u/102865023?v=4?s=100" width="100px;" alt="Diego"/><br /><sub><b>Diego</b></sub></a><br /><a href="https://github.com/HydannDiego/SymfonyPW/commits?author=HydannDiego" title="Code">💻</a></td>
+      <td align="center"><a href="https://github.com/Nova2402"><img src="https://avatars.githubusercontent.com/u/115019783?v=4?s=100" width="100px;" alt="Tien Truong"/><br /><sub><b>Tien Truong</b></sub></a><br /><a href="https://github.com/HydannDiego/SymfonyPW/commits?author=Nova2402" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
