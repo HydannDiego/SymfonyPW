@@ -6,16 +6,23 @@ qu’il soit agricole, artisanal, de service, résidentiel ou environnemental �
 Elle propose donc un certain nombre de biens agricoles à la vente ou à la location à l'intention des porteurs
 de projets.
 
-### Liste des commandes :
+### Prérequis :
+- NodeJS
+- NPM
+
+
+### Liste des commandes d'installation :
 - git clone https://github.com/HydannDiego/SymfonyPW.git
 - composer install
 - npm install (avoir NodeJS)
 - npm run encore dev watch
 - symfony serve - Lancer le serveur symfony
 
-### Prérequis :
-- NodeJS
-- NPM
+### Liste des commandes de base de données :
+
+- php bin/console doctrine:database:create
+- php bin/console doctrine:migrations:migrate
+
 
 ### Contributeurs :
 
