@@ -43,9 +43,35 @@ class Bien
     #[ORM\ManyToMany(targetEntity: UserFav::class, mappedBy: 'id_bien')]
     private Collection $userFavs;
 
-    public function __construct()
+    #[ORM\Column(length: 255)]
+    private ?string $ref = null;
+
+    /**
+     * @param int|null $id
+     * @param string|null $titre
+     * @param string|null $description
+     * @param bool|null $is_locatif
+     * @param int|null $prix
+     * @param string|null $ville
+     * @param string|null $cp
+     * @param int|null $surface
+     * @param categorie|null $id_categorie
+     * @param Collection $userFavs
+     * @param string|null $ref
+     */
+    public function __construct(?int $id, ?string $titre, ?string $description, ?bool $is_locatif, ?int $prix, ?string $ville, ?string $cp, ?int $surface, ?categorie $id_categorie, ?string $ref)
     {
+        $this->id = $id;
+        $this->titre = $titre;
+        $this->description = $description;
+        $this->is_locatif = $is_locatif;
+        $this->prix = $prix;
+        $this->ville = $ville;
+        $this->cp = $cp;
+        $this->surface = $surface;
+        $this->id_categorie = $id_categorie;
         $this->userFavs = new ArrayCollection();
+        $this->ref = $ref;
     }
 
     public function getId(): ?int
@@ -172,6 +198,18 @@ class Bien
         if ($this->userFavs->removeElement($userFav)) {
             $userFav->removeIdBien($this);
         }
+
+        return $this;
+    }
+
+    public function getRef(): ?string
+    {
+        return $this->ref;
+    }
+
+    public function setRef(string $ref): self
+    {
+        $this->ref = $ref;
 
         return $this;
     }
