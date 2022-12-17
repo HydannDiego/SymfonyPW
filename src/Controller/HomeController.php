@@ -30,13 +30,13 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/categories", name="categories")
+     * @Route("/biens", name="biens")
      * @return Response
      */
-    #[Route('/categories', name: 'categories')]
-    public function categories() : Response
+    #[Route('/biens', name: 'categories')]
+    public function biens() : Response
     {
-        return $this->render('body.html.twig');
+        return $this->render('');
     }
 
     /**
