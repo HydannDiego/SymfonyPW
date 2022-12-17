@@ -30,16 +30,6 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/biens", name="biens")
-     * @return Response
-     */
-    #[Route('/biens', name: 'categories')]
-    public function biens() : Response
-    {
-        return $this->render('');
-    }
-
-    /**
      * @Route("/category/{id}", name="category")
      * @return Response
      */
