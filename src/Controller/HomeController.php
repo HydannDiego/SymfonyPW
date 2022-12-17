@@ -18,4 +18,44 @@ class HomeController extends AbstractController
     {
         return $this->render('body.html.twig');
     }
+
+    /**
+     * @Route("/categories", name="categories")
+     * @return Response
+     */
+    #[Route('/categories', name: 'categories')]
+    public function categories() : Response
+    {
+        return $this->render('body.html.twig');
+    }
+
+    /**
+     * @Route("/category/{id}", name="category")
+     * @return Response
+     */
+    #[Route('/category/{id}', name: 'category')]
+    public function category() : Response
+    {
+        return $this->render('body.html.twig');
+    }
+
+    /**
+     * @Route("/about", name="about")
+     * @return Response
+     */
+    #[Route('/about', name: 'about')]
+    public function about() : Response
+    {
+        return $this->render('body.html.twig');
+    }
+
+    /**
+     * @Route("/contact", name="contact")
+     * @return Response
+     */
+    #[Route('/contact', name: 'contact')]
+    public function contact() : Response
+    {
+        return $this->render('body.html.twig');
+    }
 }
