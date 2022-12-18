@@ -3,9 +3,9 @@
     <div class="flex flex-wrap md:space-x-4 justify-center px-4">
         {% for unBien in lesBiens %}
             <div class="w-80 h-90 rounded overflow-hidden shadow-lg my-9">
-                <img class="w-full" src="/assets/img/photoSite/17.03.017.jpg">
+                <img class="w-full h-48" src="/assets/img/photoSite/{{ unBien.image }}.jpg">
                 <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2 h-16">{{ unBien.titre }}</div>
+                    <div class="font-bold text-xl mb-2 h-20">{{ unBien.titre }}</div>
                     <p class="text-gray-700 text-base h-32">
                         {{ unBien.description }}
                     </p>

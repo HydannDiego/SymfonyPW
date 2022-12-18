@@ -46,6 +46,9 @@ class Bien
     #[ORM\Column(length: 255)]
     private ?string $ref = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     /**
      * @param int|null $id
      * @param string|null $titre
@@ -58,8 +61,9 @@ class Bien
      * @param categorie|null $id_categorie
      * @param Collection $userFavs
      * @param string|null $ref
+     * @param string|null $image
      */
-    public function __construct(?int $id, ?string $titre, ?string $description, ?bool $is_locatif, ?int $prix, ?string $ville, ?string $cp, ?int $surface, ?categorie $id_categorie, ?string $ref)
+    public function __construct(?int $id, ?string $titre, ?string $description, ?bool $is_locatif, ?int $prix, ?string $ville, ?string $cp, ?int $surface, ?categorie $id_categorie, ?string $ref,?string $image)
     {
         $this->id = $id;
         $this->titre = $titre;
@@ -72,6 +76,7 @@ class Bien
         $this->id_categorie = $id_categorie;
         $this->userFavs = new ArrayCollection();
         $this->ref = $ref;
+        $this->image = $image;
     }
 
     public function getId(): ?int
@@ -210,6 +215,18 @@ class Bien
     public function setRef(string $ref): self
     {
         $this->ref = $ref;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
