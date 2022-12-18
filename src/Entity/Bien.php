@@ -38,7 +38,7 @@ class Bien
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?categorie $id_categorie = null;
+    private ?Categorie $id_categorie = null;
 
     #[ORM\ManyToMany(targetEntity: UserFav::class, mappedBy: 'id_bien')]
     private Collection $userFavs;
