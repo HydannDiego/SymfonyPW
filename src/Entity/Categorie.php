@@ -17,16 +17,6 @@ class Categorie
     #[ORM\Column(length: 60)]
     private ?string $intitule = null;
 
-    /**
-     * @param int|null $id
-     * @param string|null $intitule
-     */
-    public function __construct(?int $id, ?string $intitule)
-    {
-        $this->id = $id;
-        $this->intitule = $intitule;
-    }
-
     public function __toString() {
         return $this->intitule;
     }
