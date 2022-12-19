@@ -21,6 +21,7 @@
         "encore": "encore"
     },
     "dependencies": {
+        "flowbite": "^1.5.5",
         "pdf2json": "1.2.5"
     }
 }
