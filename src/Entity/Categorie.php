@@ -27,6 +27,10 @@ class Categorie
         $this->intitule = $intitule;
     }
 
+    public function __toString() {
+        return $this->intitule;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
