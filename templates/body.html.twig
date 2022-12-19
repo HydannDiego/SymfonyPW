@@ -1,8 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+    <div class="container mx-auto px-6 grid py-24">
+        <div class="flex flex-wrap md:space-x-12 justify-center px-4">
+            <a href="#" class="block w-full md:flex-1 max-w-xs mb-12">
+                <img src="/assets/img/photoAccueil/location.jpg" class="w-full h-96 object-cover">
+                <div class="text-lg text-center p-4">Titre Bien 1</div>
+            </a>
+            <a href="#" class="block w-full md:flex-1 max-w-xs mb-12">
+                <img src="/assets/img/photoAccueil/achat.jpg" class="w-full h-96 object-cover">
+                <div class="text-lg text-center p-4">Titre Bien 2</div>
+            </a>
+            <a href="#" class="block w-full md:flex-1 max-w-xs mb-12">
+                <img src="/assets/img/photoAccueil/achat.jpg" class="w-full h-96 object-cover">
+                <div class="text-lg text-center p-4">Titre Bien 2</div>
+            </a>
+        </div>
+    </div>
     <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 py-24">
+
         <div class="lg:px-32 lg:py-32 flex items-center justify-center">
             <div>
                 <h2 class="text-5xl mb-6 font-bold uppercase italic">Qui sommes-nous ?</h2>
@@ -41,17 +57,8 @@
         </div>
         <div class="mx-auto max-w-lg text-center py-24">
             <h2 class="text-5xl mb-6 font-bold uppercase italic" id="categories">2 différents types de biens</h2>
-            <p class="text-xl">Vous pourrez notamment retrouver les biens en location ainsi que les biens disponibles à l'achat.</p>
-        </div>
-        <div class="flex flex-wrap md:space-x-12 justify-center px-4">
-            <a href="/service" class="block w-full md:flex-1 max-w-xs mb-12">
-                <img src="/assets/img/photoAccueil/location.jpg" class="w-full h-96 object-cover">
-                <div class="text-lg text-center p-4">Location</div>
-            </a>
-            <a href="/service" class="block w-full md:flex-1 max-w-xs mb-12">
-                <img src="/assets/img/photoAccueil/achat.jpg" class="w-full h-96 object-cover">
-                <div class="text-lg text-center p-4">Achat</div>
-            </a>
+            <p class="text-xl">Vous pourrez notamment retrouver les biens en location ainsi que les biens disponibles à
+                l'achat.</p>
         </div>
         <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 py-24">
             <div class="hidden lg:grid relative grid-cols-2">
