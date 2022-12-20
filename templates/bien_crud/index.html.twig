@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bien index{% endblock %}
+
+{% block body %}
+    <h1>Bien index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Is_locatif</th>
+                <th>Prix</th>
+                <th>Ville</th>
+                <th>Cp</th>
+                <th>Surface</th>
+                <th>Ref</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bien in biens %}
+            <tr>
+                <td>{{ bien.id }}</td>
+                <td>{{ bien.titre }}</td>
+                <td>{{ bien.description }}</td>
+                <td>{{ bien.isLocatif ? 'Yes' : 'No' }}</td>
+                <td>{{ bien.prix }}</td>
+                <td>{{ bien.ville }}</td>
+                <td>{{ bien.cp }}</td>
+                <td>{{ bien.surface }}</td>
+                <td>{{ bien.ref }}</td>
+                <td>{{ bien.image }}</td>
+                <td>
+                    <a href="{{ path('app_bien_c_r_u_d_show', {'id': bien.id}) }}">show</a>
+                    <a href="{{ path('app_bien_c_r_u_d_edit', {'id': bien.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_bien_c_r_u_d_new') }}">Create new</a>
+{% endblock %}

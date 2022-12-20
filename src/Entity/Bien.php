@@ -49,36 +49,6 @@ class Bien
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    /**
-     * @param int|null $id
-     * @param string|null $titre
-     * @param string|null $description
-     * @param bool|null $is_locatif
-     * @param int|null $prix
-     * @param string|null $ville
-     * @param string|null $cp
-     * @param int|null $surface
-     * @param categorie|null $id_categorie
-     * @param Collection $userFavs
-     * @param string|null $ref
-     * @param string|null $image
-     */
-    public function __construct(?int $id, ?string $titre, ?string $description, ?bool $is_locatif, ?int $prix, ?string $ville, ?string $cp, ?int $surface, ?categorie $id_categorie, ?string $ref,?string $image)
-    {
-        $this->id = $id;
-        $this->titre = $titre;
-        $this->description = $description;
-        $this->is_locatif = $is_locatif;
-        $this->prix = $prix;
-        $this->ville = $ville;
-        $this->cp = $cp;
-        $this->surface = $surface;
-        $this->id_categorie = $id_categorie;
-        $this->userFavs = new ArrayCollection();
-        $this->ref = $ref;
-        $this->image = $image;
-    }
-
     public function getId(): ?int
     {
         return $this->id;
