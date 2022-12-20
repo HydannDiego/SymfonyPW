@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <main class="py-6 px-4 sm:p-6 md:py-10 md:px-8">
-        <div class="max-w-4xl mx-auto grid grid-cols-1 lg:max-w-5xl lg:gap-x-20 lg:grid-cols-2">
+    <main class="py-6 px-4 mb-40 sm:p-6 md:py-10 md:px-8">
+        <div class="max-w-4xl mb-40 mx-auto grid grid-cols-1 lg:max-w-5xl lg:gap-x-20 lg:grid-cols-2">
             <div class="relative p-3 col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gradient-to-t from-black/75 via-black/0 sm:bg-none sm:row-start-2 sm:p-0 lg:row-start-1">
                 <h1 class="mt-1 text-lg font-semibold text-white sm:text-slate-900 md:text-2xl">{{ bien.titre }}</h1>
                 <p class="text-sm leading-4 font-medium text-white sm:text-slate-500"><i>#{{ bien.id }}</i></p>
@@ -36,10 +36,9 @@
                     </button>
                 </a>
                 <p class="mt-2 text-sm text-slate-500">{{ bien.description }}</p>
-                <p class="mt-2 lg:col-span-1"><b>Prix :</b> {% if bien.isLocatif == 1 %} Location {% else %} Vente {% endif %}</p>
+                <p class="mt-2 lg:col-span-1"><b>Type :</b> {% if bien.isLocatif == 1 %} Location {% else %} Vente {% endif %}</p>
                 <p class="mt-2 lg:col-span-1"><b>Prix :</b> {{ bien.prix }}€</p>
                 <p class="mt-2 lg:col-span-1"><b>Surface disponible :</b> {{ bien.surface }}m²</p>
-
             </div>
         </div>
     </main>
