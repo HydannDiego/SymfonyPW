@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\BienRepository;
 use Doctrine\DBAL\DriverManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,9 +15,11 @@ class HomeController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'home')]
-    public function home() : Response
+    public function home(BienRepository $bienRepository) : Response
     {
-        return $this->render('body.html.twig');
+        return $this->render('body.html.twig', [
+            'lesBiens' => $bienRepository->findAll(),
+        ]);
     }
 
     /**
