@@ -3,49 +3,97 @@
 {% block title %}Bien index{% endblock %}
 
 {% block body %}
-    <h1>Bien index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Is_locatif</th>
-                <th>Prix</th>
-                <th>Ville</th>
-                <th>Cp</th>
-                <th>Surface</th>
-                <th>Ref</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for bien in biens %}
-            <tr>
-                <td>{{ bien.id }}</td>
-                <td>{{ bien.titre }}</td>
-                <td>{{ bien.description }}</td>
-                <td>{{ bien.isLocatif ? 'Yes' : 'No' }}</td>
-                <td>{{ bien.prix }}</td>
-                <td>{{ bien.ville }}</td>
-                <td>{{ bien.cp }}</td>
-                <td>{{ bien.surface }}</td>
-                <td>{{ bien.ref }}</td>
-                <td>{{ bien.image }}</td>
-                <td>
-                    <a href="{{ path('app_bien_c_r_u_d_show', {'id': bien.id}) }}">show</a>
-                    <a href="{{ path('app_bien_c_r_u_d_edit', {'id': bien.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <h1 class="text-center pt-3">Gérer bien</h1>
 
-    <a href="{{ path('app_bien_c_r_u_d_new') }}">Create new</a>
+    <div class="flex flex-col">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="overflow-hidden">
+                    <table class="min-w-full">
+                        <thead class="border-b bg-gray-800">
+                        <tr>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Id
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Titre
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Description
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Is_locatif
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Prix
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Ville
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Code Postal
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Surface
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Ref
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                image
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Action
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for bien in biens %}
+                            <tr class="bg-gray-100 border-b">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ bien.id }}</td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ bien.titre }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ bien.description }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ bien.isLocatif ? 'Yes' : 'No' }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ bien.prix }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ bien.ville }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ bien.cp }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ bien.surface }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ bien.ref }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ bien.image }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    <a href="{{ path('app_bien_c_r_u_d_show', {'id': bien.id}) }}">show</a>
+                                    <a href="{{ path('app_bien_c_r_u_d_edit', {'id': bien.id}) }}">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="11">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <a href="{{ path('app_bien_c_r_u_d_new') }}">Create new</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

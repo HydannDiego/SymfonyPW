@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categorie index{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center pt-3">Gérer catégories</h1>
+
+    <div class="flex flex-col">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="overflow-hidden">
+                    <table class="min-w-full">
+                        <thead class="border-b bg-gray-800">
+                        <tr>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Id
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Intitulé
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Action
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for categorie in categories %}
+                            <tr class="bg-gray-100 border-b">
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ categorie.id }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ categorie.intitule }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    <a href="{{ path('app_categorie_c_r_u_d_show', {'id': categorie.id}) }}">show</a>
+                                    <a href="{{ path('app_categorie_c_r_u_d_edit', {'id': categorie.id}) }}">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="11">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <a href="{{ path('app_categorie_c_r_u_d_new') }}">Create new</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
