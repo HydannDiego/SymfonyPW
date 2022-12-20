@@ -16,4 +16,12 @@ class BienController extends AbstractController
             'lesBiens' => $bienRepository->findAll(),
         ]);
     }
+
+    #[Route('/bien/{id}', name: 'app_bien_show')]
+    public function show(BienRepository $bienRepository, int $id): Response
+    {
+        return $this->render('bien/show.html.twig', [
+            'bien' => $bienRepository->find($id),
+        ]);
+    }
 }
