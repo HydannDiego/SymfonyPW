@@ -1,22 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container mx-auto px-6 grid py-24">
-        <div class="flex flex-wrap md:space-x-12 justify-center px-4">
-            <a href="#" class="block w-full md:flex-1 max-w-xs mb-12">
-                <img src="/assets/img/photoAccueil/location.jpg" class="w-full h-96 object-cover">
-                <div class="text-lg text-center p-4">Titre Bien 1</div>
-            </a>
-            <a href="#" class="block w-full md:flex-1 max-w-xs mb-12">
-                <img src="/assets/img/photoAccueil/achat.jpg" class="w-full h-96 object-cover">
-                <div class="text-lg text-center p-4">Titre Bien 2</div>
-            </a>
-            <a href="#" class="block w-full md:flex-1 max-w-xs mb-12">
-                <img src="/assets/img/photoAccueil/achat.jpg" class="w-full h-96 object-cover">
-                <div class="text-lg text-center p-4">Titre Bien 2</div>
-            </a>
-        </div>
-    </div>
     <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 py-24">
 
         <div class="lg:px-32 lg:py-32 flex items-center justify-center">
@@ -45,6 +29,48 @@
     </div>
 
     {% if app.request.attributes.get('_route') == 'home' %}
+        <div class="container mx-auto px-6 grid py-2">
+            <div class="mx-auto max-w-lg text-center py-8">
+                <h2 class="text-5xl mb-6 font-bold uppercase italic" id="categories">3 différents biens</h2>
+                <p class="text-xl">Trois exemples de biens aléatoirement choisis !</p>
+            </div>
+
+            {% set biens = lesBiens %}
+            {% set randomsBien = [] %}
+            {% for i in 1..3 %}
+                {% set randomB = random(biens) %}
+                {% set randomsBien = randomsBien|merge([randomB]) %}
+                {% set biens = biens|filter(v => v.id != randomB.id) %}
+            {% endfor %}
+
+
+            <div class="flex flex-wrap md:space-x-12 justify-center px-4">
+                {% for unBien in randomsBien %}
+                    <div class="w-80 h-90 rounded overflow-hidden shadow-lg my-9">
+                        <img class="w-full h-48" src="/assets/img/photoSite/{{ unBien.image }}.jpg">
+                        <div class="px-6 py-4">
+                            <div class="font-bold text-xl mb-2 h-20">{{ unBien.titre }}</div>
+                            <p class="text-gray-700 text-base h-32">
+                                {{ unBien.description }}
+                            </p>
+                        </div>
+                        <div class="px-6 pt-4 pb-2">
+                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{% if unBien.islocatif == null %} Achat {% else %} Location {% endif %}</span>
+                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Disponible</span>
+                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Récent</span>
+                        </div>
+                        <div class="flex justify-center">
+                            <a href="{{ path('app_bien') }}/{{ unBien.id }}">
+                            <button class="bg-green-600 hover:bg-blue-500 text-white font-semibold hover:text-white py-2 px-4 border hover:border-transparent rounded mb-2">
+                                En savoir plus
+                            </button>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
         <div class="relative w-full bg-green-600 py-32 my-12 lg:my-24">
             <div class="relative z-10 text-center text-white text-center mx-auto max-w-xl">
                 <h1 class="text-3xl lg:text-7xl mb-4 font-bold uppercase italic">Vous accompagnez dans vos projets</h1>
