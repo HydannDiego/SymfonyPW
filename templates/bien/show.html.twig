@@ -26,18 +26,20 @@
                         <path d="M18 11.034C18 14.897 12 19 12 19s-6-4.103-6-7.966C6 7.655 8.819 5 12 5s6 2.655 6 6.034Z" />
                         <path d="M14 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
                     </svg>
-                    {{ bien.ville }} -
-                    {{ bien.cp }}
+                    {{ bien.ville }} - {{ bien.cp }}
                 </dd>
             </dl>
             <div class="mt-4 col-start-1 row-start-3 self-center sm:mt-0 sm:col-start-2 sm:row-start-2 sm:row-span-2 lg:mt-6 lg:col-start-1 lg:row-start-3 lg:row-end-4">
-                <button type="button" class="bg-green-600 text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg">
-                    {% if bien.isLocatif %} Location {% else %} Vente {% endif %}
-                </button>
-                <p class="text-sm text-slate-500">{{ bien.description }}</p>
-                <p class="mt-4 text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1">
-                    <b>Surface disponible :</b> {{ bien.surface }} m²
-                </p>
+                <a href="{{ path('categories') }}/{{ bien.idCategorie.id }}">
+                    <button type="button" class="bg-green-600 text-white text-sm leading-6 font-medium py-2 px-6 rounded-lg">
+                        <p>Ce bien appartient à la catégorie <i>{{ bien.idCategorie.intitule }}</i></p>
+                    </button>
+                </a>
+                <p class="mt-2 text-sm text-slate-500">{{ bien.description }}</p>
+                <p class="mt-2 lg:col-span-1"><b>Prix :</b> {% if bien.isLocatif == 1 %} Location {% else %} Vente {% endif %}</p>
+                <p class="mt-2 lg:col-span-1"><b>Prix :</b> {{ bien.prix }}€</p>
+                <p class="mt-2 lg:col-span-1"><b>Surface disponible :</b> {{ bien.surface }}m²</p>
+
             </div>
         </div>
     </main>
