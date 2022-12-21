@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+    {% block body %}
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h2 class=page-header>Contact</h2>
+                    {{form_start(ContactForm)}}
+                    {{form_widget(ContactForm)}}
+                    {{form_end(ContactForm)}}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
