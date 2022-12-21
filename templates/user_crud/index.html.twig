@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users index{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center pt-3">Gérer users</h1>
+
+    <div class="flex flex-col">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="overflow-hidden">
+                    <table class="min-w-full">
+                        <thead class="border-b bg-gray-800">
+                        <tr>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Id
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Email
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Roles
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Password
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Action
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr class="bg-gray-100 border-b">
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ user.id }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ user.email }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ user.roles ? user.roles|json_encode : '' }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{ user.password }}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    <a href="{{ path('app_user_c_r_u_d_show', {'id': user.id}) }}">show</a>
+                                    <a href="{{ path('app_user_c_r_u_d_edit', {'id': user.id}) }}">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="11">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <a href="/register">Create new</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
