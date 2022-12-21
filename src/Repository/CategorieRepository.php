@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Categorie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -54,13 +56,15 @@ class CategorieRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Categorie
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function affichageIntit($id): array
+    {
+
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT p.intitule
+            FROM App\Entity\Categorie p
+            WHERE p.id = :id
+            ')
+            ->setParameter('id', $id);
+        return $query->getResult();
+    }
 }
