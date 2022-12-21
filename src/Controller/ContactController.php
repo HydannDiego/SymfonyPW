@@ -21,7 +21,6 @@ class ContactController extends AbstractController
     public function createAction(Request $request, EntityManagerInterface $entityManager): Response
     {
         $contact = new Contact;
-        # Add form fields
         $form = $this->createForm(ContactFormType::class, $contact)
         ->add('nom', TextType::class, array('label'=> 'Nom', 'attr' => array('class' => 'form-control', 'style' => 'margin-bottom:15px')))
         ->add('email', EmailType::class, array('label'=> 'Email','attr' => array('class' => 'form-control', 'style' => 'margin-bottom:15px')));
