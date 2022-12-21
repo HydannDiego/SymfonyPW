@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+    {% block body %}
+        <section class="h-full gradient-form" style="background-color : #DBD2E0">
+            <div class="container py-12 px-6 h-full">
+                <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
+                    <div class="xl:w-10/12">
+                        <div class="block bg-white shadow-lg rounded-lg">
+                            <div class="lg:flex lg:flex-wrap g-0">
+                                <div class="lg:w-6/12 px-4 md:px-0">
+                                    <div class="md:p-12 md:mx-6">
+                                        <div class="text-center">
+                                            <img
+                                                    class="mx-auto w-48"
+                                                    src="/assets/img/logo.svg"
+                                                    alt="logo"
+                                            />
+                                            <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">Nous sommes SAFER</h4>
+                                            <div class="grid place-items-center">
+                                                {{form_start(ContactForm)}}
+
+                                                {{ form_label(ContactForm.nom, 'Nom', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+
+                                                {{form_widget(ContactForm.nom, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'type' : 'text', 'placeholder' : 'Nom'}})}}
+
+                                                {{ form_label(ContactForm.email, 'Email', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+
+                                                {{form_widget(ContactForm.email, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'type' : 'email', 'placeholder' : 'example@mail.com', 'style' : 'margin-bottom:15px'}})}}
+
+                                                <button type="submit" class="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3" style = "background-image: linear-gradient(to right, #002400,#273B09,#58641D,#7B904B, #DBD2E0);">Save</button>
+
+                                                {{form_end(ContactForm)}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                        class="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none "
+                                        style="background-image: linear-gradient(to right, #002400,#273B09,#58641D,#7B904B);"
+                                >
+                                    <div class="text-white px-4 py-6 md:p-12 md:mx-6">
+                                        <h4 class="text-xl font-semibold mb-6">Abonnez-vous à notre newsletter</h4>
+                                        <p class="text-sm">
+                                            Nous vous enverrons les informations sur vos propriétés préférées et vous tiendrons au courant de toutes les nouvelles qui apparaîtront à l'avenir.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endblock %}
