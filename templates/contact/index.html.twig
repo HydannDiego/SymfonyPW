@@ -1,14 +1,48 @@
 {% extends 'base.html.twig' %}
 
     {% block body %}
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <h2 class=page-header>Contact</h2>
-                    {{form_start(ContactForm)}}
-                    {{form_widget(ContactForm)}}
-                    {{form_end(ContactForm)}}
+        <section class="h-full gradient-form" style="background-color : #DBD2E0">
+            <div class="container py-12 px-6 h-full">
+                <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
+                    <div class="xl:w-10/12">
+                        <div class="block bg-white shadow-lg rounded-lg">
+                            <div class="lg:flex lg:flex-wrap g-0">
+                                <div class="lg:w-6/12 px-4 md:px-0">
+                                    <div class="md:p-12 md:mx-6">
+                                        <div class="text-center">
+                                            <div class="grid place-items-center">
+                                            {{form_start(ContactForm)}}
+
+                                                {{ form_label(ContactForm.nom, 'Nom', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+
+                                                {{form_widget(ContactForm.nom, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}})}}
+
+                                                {{ form_label(ContactForm.email, 'Email', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+
+                                                {{form_widget(ContactForm.email, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}})}}
+
+                                                <button type="submit" class="shadow bg-indigo-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Save</button>
+
+                                            {{form_end(ContactForm)}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                        class="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none "
+                                        style="background-image: linear-gradient(to right, #002400,#273B09,#58641D,#7B904B);"
+                                >
+                                    <div class="text-white px-4 py-6 md:p-12 md:mx-6">
+                                        <h4 class="text-xl font-semibold mb-6">Abonnez-vous à notre newsletter</h4>
+                                        <p class="text-sm">
+                                                Nous vous enverrons les informations sur vos propriétés préférées et vous tiendrons au courant de toutes les nouvelles qui apparaîtront à l'avenir.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     {% endblock %}

@@ -5,7 +5,8 @@ namespace App\Controller;
 use App\Entity\Contact;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\ContactFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,9 +23,9 @@ class ContactController extends AbstractController
         $contact = new Contact;
         # Add form fields
         $form = $this->createForm(ContactFormType::class, $contact)
-        ->add('nom', TextareaType::class, array('label'=> 'nom', 'attr' => array('class' => 'form-control', 'style' => 'margin-bottom:15px')))
-        ->add('email', TextareaType::class, array('label'=> 'email','attr' => array('class' => 'form-control', 'style' => 'margin-bottom:15px')))
-        ->add('Save', SubmitType::class, array('label'=> 'submit', 'attr' => array('class' => 'btn btn-primary', 'style' => 'margin-top:15px')));
+        ->add('nom', TextType::class, array('label'=> 'Nom', 'attr' => array('class' => 'form-control', 'style' => 'margin-bottom:15px')))
+        ->add('email', EmailType::class, array('label'=> 'Email','attr' => array('class' => 'form-control', 'style' => 'margin-bottom:15px')));
+        /*->add('Save', SubmitType::class, array('label'=> 'Submit', 'attr' => array('class' => 'btn btn-primary', 'style' => 'margin-top:15px')))*/
 
         # Handle form response
         $form->handleRequest($request);
