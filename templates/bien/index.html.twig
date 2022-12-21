@@ -1,6 +1,65 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+    <form>
+        <h1 class="text-center py-4 px-3 text-gray-600 font-bold hover:text-green-600 transition duration-300">Filtrage recherche biens</h1>
+        <div class="flex justify-center h-10">
+            <div class="mb-3 xl:w-96 mr-5">
+                <select name="Categ" class="form-select appearance-none
+      block
+      w-full
+      px-3
+      py-1.5
+      text-base
+      font-normal
+      text-gray-700
+      bg-white bg-clip-padding bg-no-repeat
+      border border-solid border-gray-300
+      rounded
+      transition
+      ease-in-out
+      m-0
+      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                    <option value="">-- Aucune option --</option>
+                    {% for uneCateg in lesCateg %}
+                        <option value="{{ uneCateg.id }}">
+                            {{ uneCateg.intitule }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 xl:w-96 mr-10">
+                <select name="Type" class="form-select appearance-none
+      block
+      w-full
+      px-3
+      py-1.5
+      text-base
+      font-normal
+      text-gray-700
+      bg-white bg-clip-padding bg-no-repeat
+      border border-solid border-gray-300
+      rounded
+      transition
+      ease-in-out
+      m-0
+      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                    <option value="">-- Aucune option --</option>
+                    <option value="1">
+                        Location
+                    </option>
+                    <option value="0">
+                        Achat
+                    </option>
+                </select>
+            </div>
+            <div class="flex space-x-2 justify-center">
+                <button type="submit" class="inline-block px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Valider</button>
+            </div>
+        </div>
+
+    </form>
     <div class="flex flex-wrap md:space-x-4 justify-center px-4">
+
         {% for unBien in lesBiens %}
             <div class="w-80 h-90 rounded overflow-hidden shadow-lg my-9">
                 <img class="w-full h-48" src="/assets/img/photoSite/{{ unBien.image }}.jpg">
