@@ -10,18 +10,24 @@
                                 <div class="lg:w-6/12 px-4 md:px-0">
                                     <div class="md:p-12 md:mx-6">
                                         <div class="text-center">
+                                            <img
+                                                    class="mx-auto w-48"
+                                                    src="/assets/img/logo.svg"
+                                                    alt="logo"
+                                            />
+                                            <h4 class="text-xl font-semibold mt-1 mb-12 pb-1">Nous sommes SAFER</h4>
                                             <div class="grid place-items-center">
                                             {{form_start(ContactForm)}}
 
                                                 {{ form_label(ContactForm.nom, 'Nom', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
 
-                                                {{form_widget(ContactForm.nom, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}})}}
+                                                {{form_widget(ContactForm.nom, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'type' : 'text', 'placeholder' : 'Nom'}})}}
 
                                                 {{ form_label(ContactForm.email, 'Email', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
 
-                                                {{form_widget(ContactForm.email, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}})}}
+                                                {{form_widget(ContactForm.email, {'attr': {'class': 'form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none', 'type' : 'email', 'placeholder' : 'example@mail.com', 'style' : 'margin-bottom:15px'}})}}
 
-                                                <button type="submit" class="shadow bg-indigo-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Save</button>
+                                                <button type="submit" class="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3" style = "background-image: linear-gradient(to right, #002400,#273B09,#58641D,#7B904B, #DBD2E0);">Save</button>
 
                                             {{form_end(ContactForm)}}
                                             </div>
