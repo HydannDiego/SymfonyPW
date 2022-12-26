@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for unFav in app.session.get('tabFav') %}
+        {{ unFav }}
+    {% endfor %}
+{% endblock %}
