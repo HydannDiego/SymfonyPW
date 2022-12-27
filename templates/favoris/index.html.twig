@@ -1,7 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% for unFav in app.session.get('tabFav') %}
-        {{ dump(unFav) }}
-    {% endfor %}
+    <div class="flex flex-wrap md:space-x-4 justify-center px-4">
+        {% set i=0 %}
+        {% for unFav in app.session.get('tabFav') %}
+            {% if i==0 %}
+                {% set i=1 %}
+            {% else %}
+                <div class="w-80 h-90 rounded overflow-hidden shadow-lg my-9">
+                    <img class="w-full h-48" src="/assets/img/photoSite/{{ unFav[0].image }}.jpg">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2 h-20">{{ unFav[0].titre }}</div>
+                        <p class="text-gray-700 text-base h-32">
+                            {{ unFav[0].description }}
+                        </p>
+                    </div>
+                    <div class="px-6 pt-4 pb-2">
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{% if unFav[0].islocatif == null %} Achat {% else %} Location {% endif %}</span>
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Disponible</span>
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Récent</span>
+                    </div>
+                    <div class="flex justify-center">
+                        <a href="{{ path('app_bien') }}/{{ unFav[0].id }}">
+                            <button class="bg-green-600 hover:bg-blue-500 text-white font-semibold hover:text-white py-2 px-4 border hover:border-transparent rounded mb-2">
+                                En savoir plus
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock %}
