@@ -81,7 +81,7 @@
                             </div>
 
                         {% endif %}
-                        {% if app.session != null %}
+                        {% if app.session.get('items') != null %}
                             <a href="{{ path('app_favorite') }}"
                                class="py-4 px-3 text-gray-600 font-bold hover:text-green-600 transition duration-300">
                                 Voir favoris</a>
