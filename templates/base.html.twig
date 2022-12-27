@@ -29,17 +29,17 @@
                     </div>
                     <!-- Primary Navbar items -->
                     <div class="hidden md:flex items-center space-x-1">
-                        <a href="/"
+                        <a href="{{ path('home') }}"
                            class="py-4 px-3 text-gray-600 font-bold hover:text-green-600 transition duration-300">Accueil</a>
-                        <a href="/bien"
+                        <a href="{{ path('app_bien') }}"
                            class="py-4 px-3 text-gray-600 font-bold hover:text-green-600 transition duration-300">Biens</a>
                         <a href="/about"
                            class="py-4 px-3 text-gray-600 font-bold hover:text-green-600 transition duration-300">À
                             propos</a>
-                        <a href="/contact"
+                        <a href="{{ path('app_contact') }}"
                            class="py-4 px-3 text-gray-600 font-bold hover:text-green-600 transition duration-300">Contact</a>
                         {% if app.user == null %}
-                            <a href="/connexion"
+                            <a href="{{ path('app_login') }}"
                                class="py-4 px-3 text-gray-600 font-bold hover:text-green-600 transition duration-300">Se
                                 connecter</a>
                         {% else %}
@@ -73,7 +73,7 @@
                                             users</a>
                                     </li>
                                     <li>
-                                        <a href="/logout"
+                                        <a href="{{ path('app_logout') }}"
                                            class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Se
                                             déconnecter</a>
                                     </li>
@@ -81,8 +81,8 @@
                             </div>
 
                         {% endif %}
-                        {% if app.session.get('idSession') != null %}
-                            <a href="/favoris/voir"
+                        {% if app.session != null %}
+                            <a href="{{ path('app_favorite') }}"
                                class="py-4 px-3 text-gray-600 font-bold hover:text-green-600 transition duration-300">
                                 Voir favoris</a>
                         {% else %}
@@ -117,16 +117,13 @@
             <ul class="">
                 <li class="active"><a href="/"
                                       class="block text-sm px-2 py-4 text-white bg-green-600 font-bold">Accueil</a></li>
-                <li><a href="/categories"
-                       class="block text-sm px-2 py-4 hover:text-white hover:bg-green-600 transition duration-300">Catégories</a>
-                </li>
-                <li><a href="/bien"
+                <li><a href="{{ path('app_bien') }}"
                        class="block text-sm px-2 py-4 hover:text-white hover:bg-green-600 transition duration-300">Biens</a>
                 </li>
                 <li><a href="/about"
                        class="block text-sm px-2 py-4 hover:text-white hover:bg-green-600 transition duration-300">À
                         propos</a></li>
-                <li><a href="/contact"
+                <li><a href="{{ path('app_contact') }}"
                        class="block text-sm px-2 py-4 hover:text-white hover:bg-green-600 transition duration-300">Contact</a>
                 </li>
             </ul>

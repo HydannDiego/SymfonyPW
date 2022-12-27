@@ -1,38 +1,137 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ dump(app.session.get('tabRef')) }}
-    <h1 class="text-center py-4 px-3 text-gray-600 text-2xl font-bold hover:text-green-600 transition duration-300">Vos
-        favoris</h1>
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>
+            Favorites
+        </title>
+        <link
+                href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+                rel="stylesheet"
+        />
+    </head>
 
-    <div class="flex flex-wrap md:space-x-4 justify-center px-4">
-        {% set i=0 %}
-        {% for unFav in app.session.get('tabFav') %}
-            {% if i==0 %}
-                {% set i=1 %}
-            {% else %}
-                <div class="w-80 h-90 rounded overflow-hidden shadow-lg my-9">
-                    <img class="w-full h-48" src="/assets/img/photoSite/{{ unFav[0].image }}.jpg">
-                    <div class="px-6 py-4">
-                        <div class="font-bold text-xl mb-2 h-20">{{ unFav[0].titre }}</div>
-                        <p class="text-gray-700 text-base h-32">
-                            {{ unFav[0].description }}
-                        </p>
-                    </div>
-                    <div class="px-6 pt-4 pb-2">
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{% if unFav[0].islocatif == null %} Achat {% else %} Location {% endif %}</span>
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Disponible</span>
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Récent</span>
-                    </div>
-                    <div class="flex justify-center">
-                        <a href="{{ path('app_bien') }}/{{ unFav[0].id }}">
-                            <button class="bg-green-600 hover:bg-blue-500 text-white font-semibold hover:text-white py-2 px-4 border hover:border-transparent rounded mb-2">
-                                En savoir plus
-                            </button>
-                        </a>
-                    </div>
+    <body>
+    <a href="{{ path('app_bien') }}">
+        <button class="p-4 px-6 py-3 text-sm text-white bg-indigo-500 whitespace-nowrap float-right">
+            Continuer à naviguer >
+        </button>
+    </a>
+    {% if items | length >0 %}
+        <div class="container p-8 mx-auto mt-12">
+            <div class="w-full overflow-x-auto">
+                <div class="my-2">
+                    <h3 class="text-xl font-bold tracking-wider">Vos favoris</h3>
                 </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+                <table class="w-full shadow-inner table-auto">
+                    <thead>
+                    <tr class="bg-gray-100">
+                        <th class="px-6 py-3 font-bold whitespace-nowrap">Image</th>
+                        <th class="px-6 py-3 font-bold whitespace-nowrap">Titre</th>
+                        <th class="px-6 py-3 font-bold whitespace-nowrap">Catégorie</th>
+                        <th class="px-6 py-3 font-bold whitespace-nowrap">Type</th>
+                        <th class="px-6 py-3 font-bold whitespace-nowrap">Prix</th>
+                        <th class="px-6 py-3 font-bold whitespace-nowrap">Supprimer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>
+                                <div class="flex justify-center">
+                                    <img
+                                            src="/assets/img/photoSite/{{ item.bien.image }}.jpg"
+                                            class="object-cover h-28 w-28 rounded-2xl"
+                                            alt="image"
+                                    />
+                                </div>
+                            </td>
+                            <td class="p-4 px-6 text-center whitespace-nowrap">
+                                <a href="{{ path('app_bien') }}/{{ item.bien.id }}">
+                                    <div class="flex flex-col items-center justify-center underline">
+                                        <h3>{{ item.bien.titre }}</h3>
+                                    </div>
+                                </a>
+                            </td>
+                            <td class="p-4 px-6 text-center whitespace-nowrap">
+                                <a href="/bien?Categ={{ item.bien.idCategorie.id }}&Type=">
+                                    <button type="button"
+                                            class="bg-green-600 text-white text-sm leading-6 font-medium py-2 px-6 rounded-lg">
+                                        <p>Ce bien appartient à la catégorie <i>{{ item.bien.idCategorie.intitule }}</i>
+                                        </p>
+                                    </button>
+                                </a>
+
+                            </td>
+                            <td class="p-4 px-6 text-center whitespace-nowrap">{% if item.bien.isLocatif == 1 %} Location {% else %} Vente {% endif %}</td>
+                            <td class="p-4 px-6 text-center whitespace-nowrap">{{ item.bien.prix }}€</td>
+                            <td class="p-4 px-6 text-center whitespace-nowrap">
+                                <a href="{{ path('favorite_remove', {'id': item.bien.id}) }}">
+                                    <button>
+                                        <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="w-6 h-6 text-red-400"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                        >
+                                            <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                            />
+                                        </svg>
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <form action="{{ path('app_envoie') }}">
+                    <div class="flex justify-center h-10">
+                        <div class="mb-3 xl:w-96 mr-5">
+                            <input
+                                    type="text"
+                                    class="
+        form-control
+        block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                                    placeholder="Email"
+                                    name="emailUser"
+                            />
+                        </div>
+                        <div class="flex space-x-2 justify-center">
+                            <button type="submit"
+                                    class="inline-block px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                Valider
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <p class="p-4 px-6 text-center whitespace-nowrap">
+            {{ "Vous n'avez actuellement aucun favori" }}
+        </p>
+    {% endif %}
+    </body>
 {% endblock %}

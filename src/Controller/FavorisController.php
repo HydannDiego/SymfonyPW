@@ -2,78 +2,96 @@
 
 namespace App\Controller;
 
+use App\Entity\UserFav;
 use App\Repository\BienRepository;
-use App\Repository\CategorieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class FavorisController extends AbstractController
 {
-    #[Route('/favoris/ajout/{id}', name: 'app_favoris')]
-    public function index(int $id, CategorieRepository $categorieRepository, BienRepository $bienRepository): Response
+    #[Route('/favorite', name: 'app_favorite')]
+    public function index(SessionInterface $session, BienRepository $bienRepository): Response
     {
-        $unBien = $bienRepository->findBy(["id" => $id]);
-        $uneRef = $bienRepository->getRef($id);
-        if (!isset($session)) {
-            $session = new Session();
-            $session->set('idSession', rand(0, 9999));
-        }
-        $tab = $session->get('tabFav');
-        $tabId = $session->get('tabId');
-        $tabRef = $session->get('tabRef');
+        $favorite = $session->get('favorite', []);
 
-        $i = 0;
-        $ajout = true;
-        if ($tabId == null) {
-            $tab[] = $unBien;
-            $tabId[] = $id;
-            $tabRef[] =  $uneRef[0]["ref"];
+        $favoriteWithData = [];
+
+        foreach ($favorite as $id => $inFavorite) {
+            $favoriteWithData[] = [
+                'bien' => $bienRepository->find($id)
+            ];
+        }
+
+        $session->set('items', $favoriteWithData);
+        $items = $session->get('items', []);
+        if ($items == null) {
+            return $this->redirectToRoute("home");
         } else {
-            while ($i < count($tabId)) {
-                if ($tabId[$i] == $id) {
-                    $ajout = false;
-                }
-                $i++;
-            }
+            return $this->render('favoris/index.html.twig', [
+                'items' => $favoriteWithData
+            ]);
         }
-        if ($ajout) {
-            $tab[] = $unBien;
-            $tabId[] = $id;
-            $tabRef[] =  $uneRef[0]["ref"];
-        }
-
-        $session->set('tabFav', $tab);
-        $session->set('tabId', $tabId);
-        $session->set('tabRef',$tabRef);
-
-        return $this->render('bien/show.html.twig', [
-            'categories' => $categorieRepository->findAll(),
-            'bien' => $bienRepository->find($id),
-        ]);
     }
 
-    #[Route('/favoris/voir', name: 'app_voir')]
-    public function voir(BienRepository $bienRepository): Response
+    #[Route('/favorite/add/{id}', name: 'favorite_add')]
+    public function add(int $id, SessionInterface $session)
     {
-        return $this->render('favoris/index.html.twig', [
-        ]);
+        $favorite = $session->get('favorite', []);
+
+        $favorite[$id] = true;
+
+        $session->set('favorite', $favorite);
+
+        return $this->redirectToRoute("app_favorite");
+    }
+
+    #[Route('/favorite/remove/{id}', name: 'favorite_remove')]
+    public function remove(int $id, SessionInterface $session)
+    {
+        $favorite = $session->get('favorite', []);
+
+        if (!empty($favorite[$id])) {
+            unset($favorite[$id]);
+        }
+
+        $session->set('favorite', $favorite);
+
+        return $this->redirectToRoute("app_favorite");
+
     }
 
     #[Route('/favoris/envoie', name: 'app_envoie')]
-    public function envoie(): Response
+    public function envoie(EntityManagerInterface $entityManager, BienRepository $bienRepository, SessionInterface $session)
     {
-        $session = new Session();
-        $listeRef = "";
+        $emailUser = $_GET["emailUser"];
 
-        $tabRef = $session->get('tabRef');
-        foreach ($tabRef as $value){
-            $listeRef = $listeRef." ".$value;
+
+        $user = new UserFav();
+        $user->setEmailUser($emailUser);
+        $user->setDateEnvoie(date('Y-m-d H:i:s'));
+
+        $listeRef = "";
+        $cpt = 0;
+        $tabId = $session->get('favorite', []);
+
+
+        foreach ($tabId as $key=>$value) {
+            $unBien = $bienRepository->find($value);
+            $uneRef = $bienRepository->getRef($key);
+            $user->addIdBien($unBien);
+            $listeRef = $listeRef . "<u>" . "Reference du bien : " . "</u>" . " " . $uneRef[0]["ref"] . "</br>";
         }
+
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
         try {
             $mail = new PHPMailer;
             $mail->isSMTP();                            // Set mailer to use SMTP
@@ -85,15 +103,12 @@ class FavorisController extends AbstractController
 
             //Recipients
             $mail->setFrom('team.safer@safer.com', 'Mailer');
-            $mail->addAddress('joe@example.net', 'Joe User');     //Add a recipient
+            $mail->addAddress($emailUser, 'Utilisateur');     //Add a recipient
 
             //Content
-
-            $tabRef = $session->get('tabRef');
-
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'Voici vos differents favoris';
-            $mail->Body = "Voici la liste des différentes ref de vos favoris :".$listeRef;
+            $mail->Body = '<b>' . "Voici la liste des differentes ref de vos favoris :" . '</b>' . '</br>' . $listeRef;
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
@@ -101,9 +116,6 @@ class FavorisController extends AbstractController
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
-        return $this->render('favoris/index.html.twig', [
-        ]);
+        return $this->redirectToRoute("app_favorite");
     }
-
-
 }
