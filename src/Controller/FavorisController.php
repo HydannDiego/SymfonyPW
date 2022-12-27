@@ -18,18 +18,21 @@ class FavorisController extends AbstractController
     public function index(int $id, CategorieRepository $categorieRepository, BienRepository $bienRepository): Response
     {
         $unBien = $bienRepository->findBy(["id" => $id]);
+        $uneRef = $bienRepository->getRef($id);
         if (!isset($session)) {
             $session = new Session();
             $session->set('idSession', rand(0, 9999));
         }
         $tab = $session->get('tabFav');
         $tabId = $session->get('tabId');
+        $tabRef = $session->get('tabRef');
 
         $i = 0;
         $ajout = true;
         if ($tabId == null) {
             $tab[] = $unBien;
             $tabId[] = $id;
+            $tabRef[] =  $uneRef[0]["ref"];
         } else {
             while ($i < count($tabId)) {
                 if ($tabId[$i] == $id) {
@@ -41,10 +44,12 @@ class FavorisController extends AbstractController
         if ($ajout) {
             $tab[] = $unBien;
             $tabId[] = $id;
+            $tabRef[] =  $uneRef[0]["ref"];
         }
 
         $session->set('tabFav', $tab);
         $session->set('tabId', $tabId);
+        $session->set('tabRef',$tabRef);
 
         return $this->render('bien/show.html.twig', [
             'categories' => $categorieRepository->findAll(),
@@ -53,7 +58,7 @@ class FavorisController extends AbstractController
     }
 
     #[Route('/favoris/voir', name: 'app_voir')]
-    public function voir(): Response
+    public function voir(BienRepository $bienRepository): Response
     {
         return $this->render('favoris/index.html.twig', [
         ]);
@@ -62,6 +67,13 @@ class FavorisController extends AbstractController
     #[Route('/favoris/envoie', name: 'app_envoie')]
     public function envoie(): Response
     {
+        $session = new Session();
+        $listeRef = "";
+
+        $tabRef = $session->get('tabRef');
+        foreach ($tabRef as $value){
+            $listeRef = $listeRef." ".$value;
+        }
         try {
             $mail = new PHPMailer;
             $mail->isSMTP();                            // Set mailer to use SMTP
@@ -76,9 +88,12 @@ class FavorisController extends AbstractController
             $mail->addAddress('joe@example.net', 'Joe User');     //Add a recipient
 
             //Content
+
+            $tabRef = $session->get('tabRef');
+
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'Voici vos differents favoris';
-            $mail->Body    = 'Oui';
+            $mail->Body = "Voici la liste des différentes ref de vos favoris :".$listeRef;
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();

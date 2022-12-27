@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {{ dump(app.session.get('tabRef')) }}
     <h1 class="text-center py-4 px-3 text-gray-600 text-2xl font-bold hover:text-green-600 transition duration-300">Vos
         favoris</h1>
 
