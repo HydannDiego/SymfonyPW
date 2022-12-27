@@ -51,7 +51,7 @@ class FavorisController extends AbstractController
     }
 
     #[Route('/favoris/voir', name: 'app_voir')]
-    public function voir(BienRepository $bienRepository): Response
+    public function voir(): Response
     {
         $session = new Session();
         //$session->clear();
