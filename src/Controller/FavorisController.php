@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Repository\BienRepository;
 use App\Repository\CategorieRepository;
-use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -15,29 +14,37 @@ class FavorisController extends AbstractController
     #[Route('/favoris/ajout/{id}', name: 'app_favoris')]
     public function index(int $id, CategorieRepository $categorieRepository, BienRepository $bienRepository): Response
     {
+        $unBien = $bienRepository->findBy(["id"=>$id]);
         if (!isset($session)) {
             $session = new Session();
             $session->set('idSession', rand(0, 9999));
         }
-        $tab = array();
-        $tab = $session->get('tabFav');
+        $tabId = array();
+        $tabFav = array();
+
+        $tabFav = $session->get('tabFav');
+        $tabId = $session->get('tabId');
+
         $i = 0;
         $ajout = true;
-        if($tab == null){
-            $tab[] = $id;
+        if($tabId == null){
+            $tabFav = $unBien;
         }else{
-            while ($i < count($tab) ) {
-                if ($tab[$i] == $id) {
+            while ($i < count($tabId) ) {
+                if ($tabId[$i] == $id) {
                     $ajout = false;
                 }
                 $i++;
             }
         }
         if($ajout){
-            $tab[] = $id;
+            $tabFav[] = $unBien;
+            $tabId[] = $id;
         }
 
-        $session->set('tabFav', $tab);
+        $session->set('tabFav', $tabFav);
+        $session->set('tabId', $tabId);
+
 
         return $this->render('bien/show.html.twig', [
             'categories' => $categorieRepository->findAll(),
@@ -46,8 +53,9 @@ class FavorisController extends AbstractController
     }
 
     #[Route('/favoris/voir', name: 'app_voir')]
-    public function voir(): Response
+    public function voir(BienRepository $bienRepository): Response
     {
+        $session = new Session();
         return $this->render('favoris/index.html.twig', [
         ]);
     }

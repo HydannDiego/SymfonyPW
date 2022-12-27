@@ -2,6 +2,6 @@
 
 {% block body %}
     {% for unFav in app.session.get('tabFav') %}
-        {{ unFav }}
+        {{ dump(unFav) }}
     {% endfor %}
 {% endblock %}
