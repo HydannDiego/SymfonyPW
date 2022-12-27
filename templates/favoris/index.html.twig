@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <h1 class="text-center py-4 px-3 text-gray-600 text-2xl font-bold hover:text-green-600 transition duration-300">Vos
+        favoris</h1>
+
     <div class="flex flex-wrap md:space-x-4 justify-center px-4">
         {% set i=0 %}
         {% for unFav in app.session.get('tabFav') %}

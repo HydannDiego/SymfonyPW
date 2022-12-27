@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Repository\BienRepository;
 use App\Repository\CategorieRepository;
-use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -15,7 +14,7 @@ class FavorisController extends AbstractController
     #[Route('/favoris/ajout/{id}', name: 'app_favoris')]
     public function index(int $id, CategorieRepository $categorieRepository, BienRepository $bienRepository): Response
     {
-        $unBien = $bienRepository->findBy(["id"=>$id]);
+        $unBien = $bienRepository->findBy(["id" => $id]);
         if (!isset($session)) {
             $session = new Session();
             $session->set('idSession', rand(0, 9999));
@@ -25,18 +24,18 @@ class FavorisController extends AbstractController
 
         $i = 0;
         $ajout = true;
-        if($tabId == null){
+        if ($tabId == null) {
             $tab[] = $unBien;
             $tabId[] = $id;
-        }else{
-            while ($i < count($tabId) ) {
+        } else {
+            while ($i < count($tabId)) {
                 if ($tabId[$i] == $id) {
                     $ajout = false;
                 }
                 $i++;
             }
         }
-        if($ajout){
+        if ($ajout) {
             $tab[] = $unBien;
             $tabId[] = $id;
         }
@@ -53,8 +52,6 @@ class FavorisController extends AbstractController
     #[Route('/favoris/voir', name: 'app_voir')]
     public function voir(): Response
     {
-        $session = new Session();
-        //$session->clear();
         return $this->render('favoris/index.html.twig', [
         ]);
     }
