@@ -39,6 +39,17 @@ class BienRepository extends ServiceEntityRepository
         }
     }
 
+    public function getRef($id): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT p.ref
+            FROM App\Entity\Bien p
+            WHERE p.id = :id
+            ')
+            ->setParameter('id', $id);
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return Bien[] Returns an array of Bien objects
 //     */

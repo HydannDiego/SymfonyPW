@@ -2,24 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Bien;
-use App\Entity\Categorie;
 use App\Repository\BienRepository;
 use App\Repository\CategorieRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BienController extends AbstractController
 {
-    /**
-     * @throws NonUniqueResultException
-     */
     #[Route('/bien', name: 'app_bien')]
     public function index(BienRepository $bienRepository, CategorieRepository $categorieRepository): Response
     {
-
         if (isset($_GET["Categ"]) && isset($_GET["Type"])) {
             $id = $_GET["Categ"];
             $intitCateg =$categorieRepository->affichageIntit($id);

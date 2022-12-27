@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserFavRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserFavRepository::class)]
@@ -20,6 +21,9 @@ class UserFav
 
     #[ORM\ManyToMany(targetEntity: bien::class, inversedBy: 'userFavs')]
     private Collection $id_bien;
+
+    #[ORM\Column(length: 255)]
+    private ?string $dateEnvoie = null;
 
     public function __construct()
     {
@@ -63,6 +67,18 @@ class UserFav
     public function removeIdBien(bien $idBien): self
     {
         $this->id_bien->removeElement($idBien);
+
+        return $this;
+    }
+
+    public function getDateEnvoie(): ?string
+    {
+        return $this->dateEnvoie;
+    }
+
+    public function setDateEnvoie(string $dateEnvoie): self
+    {
+        $this->dateEnvoie = $dateEnvoie;
 
         return $this;
     }
