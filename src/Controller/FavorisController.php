@@ -77,8 +77,8 @@ class FavorisController extends AbstractController
 
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
-            $mail->Subject = 'Voici vos différents favoris';
-            $mail->Body    = '';
+            $mail->Subject = 'Voici vos differents favoris';
+            $mail->Body    = 'Oui';
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
