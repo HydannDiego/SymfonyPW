@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Bien;
+use App\Entity\Contact;
 use App\Form\BienType;
 use App\Repository\BienRepository;
+use App\Repository\ContactRepository;
 use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +26,7 @@ class BienCRUDController extends AbstractController
     }
 
     #[Route('/new', name: 'app_bien_c_r_u_d_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, BienRepository $bienRepository): Response
+    public function new(Request $request, BienRepository $bienRepository, ContactRepository $contactRepository): Response
     {
         $bien = new Bien();
         $form = $this->createForm(BienType::class, $bien);
@@ -32,34 +34,34 @@ class BienCRUDController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $bienRepository->save($bien, true);
+            $lesContacts = $contactRepository->findAll();
+            foreach ($lesContacts as $contact) {
+                try {
+                    $mail = new PHPMailer;
+                    $mail->isSMTP();                            // Set mailer to use SMTP
+                    $mail->Host = 'smtp.mailtrap.io';           // Specify main and backup SMTP servers
+                    $mail->SMTPAuth = true;                     // Enable SMTP authentication
+                    $mail->Username = 'b64dc9f9de43bb';       // SMTP username
+                    $mail->Password = 'b8d29ee13ed6c6';         // SMTP password
+                    $mail->Port = 2525;                                  //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
+                    //Recipients
+                    $mail->setFrom('team.safer@safer.com', 'Mailer');
+                    $mail->addAddress($contact->getEmail(), $contact->getNom());     //Add a recipient
+
+                    //Content
+                    $mail->isHTML(true);                                  //Set email format to HTML
+                    $mail->Subject = 'Un nouveau bien est disponible';
+                    $mail->Body = 'Bonjour ' . $contact->getNom() . ',</br>' . 'Un nouveau bien est disponible dans notre catalogue.'.'</br>'.'</br>'.'Voici les quelques informations concernant ce bien' . '</br>' .' Titre : '.$bien->getTitre(). '</br>'.' Ville : '.$bien->getVille().'</br>'.'Surface : '.$bien->getSurface().'</br>'.'Ref : '.$bien->getRef().'</br>'.'Prix : '.$bien->getPrix().'</br>'.'</br>'.'Rendez-vous sur notre ' . '<a href="http://localhost:8000/bien/'.$bien->getId().'">site</a>' . ' pour plus d\'informations';
+                    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+                    $mail->send();
+                    echo 'Message has been sent';
+                } catch (Exception $e) {
+                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                }
+            }
             return $this->redirectToRoute('app_bien_c_r_u_d_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-
-        try {
-            $mail = new PHPMailer;
-            $mail->isSMTP();                            // Set mailer to use SMTP
-            $mail->Host = 'smtp.mailtrap.io';           // Specify main and backup SMTP servers
-            $mail->SMTPAuth = true;                     // Enable SMTP authentication
-            $mail->Username = 'b64dc9f9de43bb';       // SMTP username
-            $mail->Password = 'b8d29ee13ed6c6';         // SMTP password
-            $mail->Port = 2525;                                  //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-            //Recipients
-            $mail->setFrom('team.safer@safer.com', 'Mailer');
-            $mail->addAddress('test@gmail.com', 'Utilisateur');     //Add a recipient
-
-            //Content
-            $mail->isHTML(true);                                  //Set email format to HTML
-            $mail->Subject = 'Un nouveau bien est disponible';
-            $mail->Body = 'Un nouveau bien est dispo ! ';
-            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-            $mail->send();
-            echo 'Message has been sent';
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
 
         return $this->renderForm('bien_crud/new.html.twig', [
@@ -97,7 +99,7 @@ class BienCRUDController extends AbstractController
     #[Route('/{id}', name: 'app_bien_c_r_u_d_delete', methods: ['POST'])]
     public function delete(Request $request, Bien $bien, BienRepository $bienRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$bien->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $bien->getId(), $request->request->get('_token'))) {
             $bienRepository->remove($bien, true);
         }
 
