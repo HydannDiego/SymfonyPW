@@ -25,6 +25,10 @@ class UserFav
     #[ORM\Column(length: 255)]
     private ?string $dateEnvoie = null;
 
+    public function __toString() {
+        return $this->dateEnvoie;
+    }
+
     public function __construct()
     {
         $this->id_bien = new ArrayCollection();

@@ -41,7 +41,7 @@ class Bien
     private ?Categorie $id_categorie = null;
 
     #[ORM\ManyToMany(targetEntity: UserFav::class, mappedBy: 'id_bien')]
-    private Collection $userFavs;
+    private ?Collection $userFavs = null;
 
     #[ORM\Column(length: 255)]
     private ?string $ref = null;
@@ -150,17 +150,14 @@ class Bien
         return $this;
     }
 
-    /**
-     * @return Collection<int, UserFav>
-     */
-    public function getUserFavs(): Collection
+    public function getUserFavs()
     {
         return $this->userFavs;
     }
 
     public function addUserFav(UserFav $userFav): self
     {
-        if (!$this->userFavs->contains($userFav)) {
+        if (!$this != null && !$this->userFavs->contains($userFav)) {
             $this->userFavs->add($userFav);
             $userFav->addIdBien($this);
         }
