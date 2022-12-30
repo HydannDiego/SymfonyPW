@@ -61,7 +61,7 @@ class CategorieRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
-            'SELECT c.intitule,count(c.id)
+            'SELECT c.intitule,count(c.id) as nombre
             FROM App\Entity\Categorie c
             JOIN App\Entity\Bien b
             WHERE c.id = b.id_categorie
