@@ -39,6 +39,16 @@ class UserFavRepository extends ServiceEntityRepository
         }
     }
 
+    public function getFavsByMonth($month)
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->select('u')
+            ->where('MONTH(u.dateEnvoie) = :month')
+            ->setParameter('month', $month);
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return UserFav[] Returns an array of UserFav objects
 //     */
