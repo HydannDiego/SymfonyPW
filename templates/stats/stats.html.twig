@@ -26,6 +26,14 @@
                                     {{ countSorted[i]["nombre"] }},
                                     {% endfor %}
                                 ],
+                                backgroundColor: [
+                                    {% for i in 0..countSorted|length-1 %}
+                                    {% set r = random(0,100) %}
+                                    {% set g = random(200,255) %}
+                                    {% set b = random(140,255) %}
+                                    'rgb({{ r }}, {{ g }}, {{ b }})',
+                                    {% endfor %}
+                                ],
                             }],
                         },
                         options: {
