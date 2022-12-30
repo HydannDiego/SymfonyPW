@@ -61,11 +61,11 @@ class CategorieRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
-            `SELECT categorie.intitule, count(*)
-            FROM App\Entity\Categorie categorie
-            JOIN App\Entity\Bien bien
-            ON categorie.id = bien.id_categorie_id
-            GROUP BY categorie.id`
+            'SELECT c.intitule,count(c.id)
+            FROM App\Entity\Categorie c
+            JOIN App\Entity\Bien b
+            WHERE c.id = b.id_categorie
+            GROUP BY c.id'
         );
         return $query->getResult();
     }
