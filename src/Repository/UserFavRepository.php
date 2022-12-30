@@ -39,14 +39,16 @@ class UserFavRepository extends ServiceEntityRepository
         }
     }
 
-    public function getFavsByMonth($month)
+    public function countByMonth(): array
     {
-        $qb = $this->createQueryBuilder('u');
-        $qb->select('u')
-            ->where('MONTH(u.dateEnvoie) = :month')
-            ->setParameter('month', $month);
-
-        return $qb->getQuery()->getResult();
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            // count of userFavs by month
+            'SELECT COUNT(u.id) as count, MONTH(u.dateEnvoie) as month 
+            FROM App\Entity\UserFav u
+            GROUP BY month'
+        );
+        return $query->getResult();
     }
 
 //    /**
