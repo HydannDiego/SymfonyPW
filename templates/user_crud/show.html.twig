@@ -3,9 +3,9 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <h1 class="text-4xl font-bold dark:text-white text-center">User</h1>
 
-    <table class="table">
+    <table class="table text-sm text-left table-auto content-center grid place-items-center">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -26,9 +26,21 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_user_c_r_u_d_index') }}">back to list</a>
+    <div class="grid place-items-center">
 
-    <a href="{{ path('app_user_c_r_u_d_edit', {'id': user.id}) }}">edit</a>
+        <a href="{{ path('app_user_c_r_u_d_index') }}">
+            <button class="p-4 px-6 py-3 text-white bg-gray-500 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out mb-3">
+                Back to list
+            </button>
+        </a>
+
+        <a href="{{ path('app_user_c_r_u_d_edit', {'id': user.id}) }}">
+            <button class="p-4 px-6 py-3 text-white bg-gray-500 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out mb-3">
+                Edit
+            </button>
+        </a>
+
+    </div>
 
     {{ include('user_crud/_delete_form.html.twig') }}
 {% endblock %}
