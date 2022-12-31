@@ -82,4 +82,5 @@ class UserFav
 
         return $this;
     }
+
 }

@@ -4,6 +4,8 @@
 
 {% block body %}
 
+
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div class="p-1 mb-6 ">
         {#                    STATISTIQUE #1 : Nombre de biens par catégorie#}
@@ -41,7 +43,16 @@
                             }],
                         },
                         options: {
-                            responsive: true
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Diagramme du nombre de biens par catégorie'
+                                }
+                            }
                         }
                     });
                 </script>
@@ -88,7 +99,16 @@
                         type: 'line',
                         data: data2,
                         options: {
-                            responsive: true
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Diagramme du nombre de favoris créés au mois'
+                                }
+                            }
                         }
                     });
                 </script>
@@ -104,7 +124,7 @@
                 <script>
                     const ctx3 = document.getElementById('chart3').getContext('2d');
                     const chart3 = new Chart(ctx3, {
-                        type: 'doughnut',
+                        type: 'bar',
                         data: {
                             labels: [
                                 "1er", "2ème", "3ème"
@@ -114,10 +134,27 @@
                                 data: [
                                     1, 2, 3
                                 ],
+                                backgroundColor: [
+                                    {% for i in 0..2 %}
+                                    {% set r = random(0,100) %}
+                                    {% set g = random(200,255) %}
+                                    {% set b = random(140,255) %}
+                                    'rgb({{ r }}, {{ g }}, {{ b }})',
+                                    {% endfor %}
+                                ],
                             }],
                         },
                         options: {
-                            responsive: true
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Diagramme du nombre de biens par catégorie'
+                                }
+                            }
                         }
                     });
                 </script>

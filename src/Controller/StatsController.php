@@ -32,6 +32,7 @@ class StatsController extends AbstractController
             'contacts' => $contactRepository->findAll(),
             'userFavs' => $userFavRepository->findAll(),
             'countByMonth' => $userFavRepository->countByMonth(),
+            'countByBienOrdered' => $userFavRepository->countByBienOrdered(),
             'users' => $userRepository->findAll(),
         ]);
     }
