@@ -3,9 +3,12 @@
 {% block title %}New Bien{% endblock %}
 
 {% block body %}
-    <h1>Create new Bien</h1>
+    <h1 class="text-4xl font-bold dark:text-white text-center">Create new Bien</h1>
 
     {{ include('bien_crud/_form.html.twig') }}
-
-    <a href="{{ path('app_bien_c_r_u_d_index') }}">back to list</a>
+    <div class="grid place-items-center">
+        <a href="{{ path('app_bien_c_r_u_d_index') }}">
+            <button class="p-4 px-6 py-3 text-white bg-gray-500 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out mb-3">Back to list</button>
+        </a>
+    </div>
 {% endblock %}

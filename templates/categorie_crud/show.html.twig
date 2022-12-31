@@ -3,9 +3,9 @@
 {% block title %}Categorie{% endblock %}
 
 {% block body %}
-    <h1>Categorie</h1>
+    <h1 class="text-4xl font-bold dark:text-white text-center">Categorie</h1>
 
-    <table class="table">
+    <table class="table text-sm text-left table-auto content-center grid place-items-center">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -17,10 +17,15 @@
             </tr>
         </tbody>
     </table>
+    <div class="grid place-items-center">
+        <a href="{{ path('app_categorie_c_r_u_d_index') }}">
+            <button class="p-4 px-6 py-3 text-white bg-gray-500 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out mb-3">Back to list</button>
+        </a>
 
-    <a href="{{ path('app_categorie_c_r_u_d_index') }}">back to list</a>
-
-    <a href="{{ path('app_categorie_c_r_u_d_edit', {'id': categorie.id}) }}">edit</a>
+        <a href="{{ path('app_categorie_c_r_u_d_edit', {'id': categorie.id}) }}">
+            <button class="p-4 px-6 py-3 text-white bg-gray-500 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out mb-3">Edit</button>
+        </a>
+    </div>
 
     {{ include('categorie_crud/_delete_form.html.twig') }}
 {% endblock %}
