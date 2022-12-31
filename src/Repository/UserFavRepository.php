@@ -39,6 +39,32 @@ class UserFavRepository extends ServiceEntityRepository
         }
     }
 
+    public function countByMonth(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            // count of userFavs by month
+            'SELECT COUNT(u.id) as count, MONTH(u.dateEnvoie) as month 
+            FROM App\Entity\UserFav u
+            GROUP BY month'
+        );
+        return $query->getResult();
+    }
+
+    //SELECT user_fav_bien.bien_id, COUNT(*) FROM `user_fav_bien` GROUP BY bien_id;
+    public function countByBienOrdered(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            '
+            SELECT userfav.id, COUNT(userfav.id) as count 
+            FROM App\Entity\UserFav userfav 
+            GROUP BY userfav.id
+            '
+        );
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return UserFav[] Returns an array of UserFav objects
 //     */

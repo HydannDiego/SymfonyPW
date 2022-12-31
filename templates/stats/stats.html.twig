@@ -1,0 +1,164 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques du site{% endblock %}
+
+{% block body %}
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div class="p-1 mb-6 ">
+        {#                    STATISTIQUE #1 : Nombre de biens par catégorie#}
+        <div class="grid grid-flow-col mb-8">
+            <div class="chart-container p-5" style="height:40vh; width:40vw">
+                <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
+                    STATISTIQUE 1 : Nombre de biens par catégorie
+                </h1>
+                <canvas id="chart"></canvas>
+                <script>
+                    const ctx = document.getElementById('chart').getContext('2d');
+                    const chart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: [
+                                {% for cat in categories %}
+                                '{{ cat.intitule }}',
+                                {% endfor %}
+                            ],
+                            datasets: [{
+                                label: 'Nombre de biens par catégorie',
+                                data: [
+                                    {% for i in 0..countSorted|length-1 %}
+                                    {{ countSorted[i]["nombre"] }},
+                                    {% endfor %}
+                                ],
+                                backgroundColor: [
+                                    {% for i in 0..countSorted|length-1 %}
+                                    {% set r = random(0,100) %}
+                                    {% set g = random(200,255) %}
+                                    {% set b = random(140,255) %}
+                                    'rgb({{ r }}, {{ g }}, {{ b }})',
+                                    {% endfor %}
+                                ],
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Diagramme du nombre de biens par catégorie'
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+        {#                    STATISTIQUE #2 : Nombre de favoris créés au mois#}
+        <div class="grid grid-flow-col mb-8">
+            <div class="chart-container p-5" style="height:40vh; width:40vw">
+                <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
+                    STATISTIQUE 2 : Nombre de favoris créés au mois
+                </h1>
+                <canvas id="chart2"></canvas>
+                <script>
+                    {% set months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
+                    {% set dataMonths = []%}
+                    {% for i in 1..12 %}
+                    {% set status = false %}
+                    {% for j in 0..countByMonth|length-1 %}
+                    {% if countByMonth[j] is defined and countByMonth[j]["month"] == i %}
+                    {% set dataMonths = dataMonths|merge([countByMonth[j]["count"]]) %}
+                    {% set status = true %}
+                    {% endif %}
+                    {% endfor %}
+                    {% if status == false %}
+                    {% set dataMonths = dataMonths|merge([0]) %}
+                    {% endif %}
+                    {% endfor %}
+                    const ctx2 = document.getElementById('chart2').getContext('2d');
+                    const data2 = {
+                        labels: {{ months|json_encode|raw }},
+                        datasets: [{
+                            label: 'Nombre de favoris créés au mois',
+                            data: [
+                                {% for i in 0..dataMonths|length-1 %}
+                                {{ dataMonths[i] }},
+                                {% endfor %}
+                            ],
+                            fill: false,
+                            borderColor: 'red',
+                            tension: 0.1
+                        }]
+                    };
+                    const chart2 = new Chart(ctx2, {
+                        type: 'line',
+                        data: data2,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Diagramme du nombre de favoris créés au mois'
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+        {#                    STATISTIQUE #3 : Les 3 biens les plus mis en favoris#}
+        <div class="grid grid-flow-col mb-8">
+            <div class="chart-container p-5" style="height:40vh; width:40vw">
+                <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
+                    STATISTIQUE 3 : Les 3 biens les plus mis en favoris
+                </h1>
+                <canvas id="chart3"></canvas>
+                <script>
+                    const ctx3 = document.getElementById('chart3').getContext('2d');
+                    const chart3 = new Chart(ctx3, {
+                        type: 'bar',
+                        data: {
+                            labels: [
+                                "1er", "2ème", "3ème"
+                            ],
+                            datasets: [{
+                                label: 'Les 3 biens les plus mis en favoris',
+                                data: [
+                                    1, 2, 3
+                                ],
+                                backgroundColor: [
+                                    {% for i in 0..2 %}
+                                    {% set r = random(0,100) %}
+                                    {% set g = random(200,255) %}
+                                    {% set b = random(140,255) %}
+                                    'rgb({{ r }}, {{ g }}, {{ b }})',
+                                    {% endfor %}
+                                ],
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Diagramme du nombre de biens par catégorie'
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+{% endblock %}

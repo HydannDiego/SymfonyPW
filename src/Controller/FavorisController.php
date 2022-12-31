@@ -30,6 +30,7 @@ class FavorisController extends AbstractController
 
         $session->set('items', $favoriteWithData);
         $items = $session->get('items', []);
+
         if ($items == null) {
             return $this->redirectToRoute("home");
         } else {

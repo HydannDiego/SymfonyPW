@@ -56,14 +56,28 @@ class CategorieRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+
+    public function countSorted(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT c.intitule,count(c.id) as nombre
+            FROM App\Entity\Categorie c
+            JOIN App\Entity\Bien b
+            WHERE c.id = b.id_categorie
+            GROUP BY c.id'
+        );
+        return $query->getResult();
+    }
+
     public function affichageIntit($id): array
     {
 
         $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery('SELECT p.intitule
+        $query = $entityManager->createQuery(
+            'SELECT p.intitule
             FROM App\Entity\Categorie p
-            WHERE p.id = :id
-            ')
+            WHERE p.id = :id')
             ->setParameter('id', $id);
         return $query->getResult();
     }
