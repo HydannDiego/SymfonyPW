@@ -82,8 +82,8 @@ class FavorisController extends AbstractController
         $tabId = $session->get('favorite', []);
 
 
-        foreach ($tabId as $key=>$value) {
-            $unBien = $bienRepository->find($value);
+        foreach ($tabId as $key => $value) {
+            $unBien = $bienRepository->find($key);
             $uneRef = $bienRepository->getRef($key);
             $user->addIdBien($unBien);
             $listeRef = $listeRef . "<u>" . "Reference du bien : " . "</u>" . " " . $uneRef[0]["ref"] . "</br>";
@@ -98,8 +98,8 @@ class FavorisController extends AbstractController
             $mail->isSMTP();                            // Set mailer to use SMTP
             $mail->Host = 'smtp.mailtrap.io';           // Specify main and backup SMTP servers
             $mail->SMTPAuth = true;                     // Enable SMTP authentication
-            $mail->Username = 'b64dc9f9de43bb';       // SMTP username
-            $mail->Password = 'b8d29ee13ed6c6';         // SMTP password
+            $mail->Username = '4e4655a33664cd';       // SMTP username
+            $mail->Password = '50ab7eccdd83a6';         // SMTP password
             $mail->Port = 2525;                                  //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Recipients
