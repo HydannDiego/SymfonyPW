@@ -70,6 +70,23 @@ class CategorieRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+
+    public function countByCity(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            '
+            SELECT MAX(c.id) as max, b.ville as city
+            FROM App\Entity\Bien b
+            JOIN App\Entity\Categorie c
+            WHERE c.id = b.id_categorie
+            GROUP BY b.ville
+            ORDER BY max DESC
+            '
+        );
+        return $query->getResult();
+    }
+
     public function affichageIntit($id): array
     {
 

@@ -27,11 +27,14 @@ class StatsController extends AbstractController
     {
         return $this->render('stats/stats.html.twig', [
             'countSorted' => $categorieRepository->countSorted(),
+            'countByCity' => $categorieRepository->countByCity(),
             'categories' => $categorieRepository->findAll(),
             'biens' => $repository->findAll(),
             'contacts' => $contactRepository->findAll(),
             'userFavs' => $userFavRepository->findAll(),
+            'countByDay' => $userFavRepository->countByDay(),
             'countByMonth' => $userFavRepository->countByMonth(),
+            'countByYear' => $userFavRepository->countByYear(),
             'countByBienOrdered' => $userFavRepository->countByBienOrdered(),
             'users' => $userRepository->findAll(),
         ]);
