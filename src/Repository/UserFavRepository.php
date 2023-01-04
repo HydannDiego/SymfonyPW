@@ -43,8 +43,12 @@ class UserFavRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
-            // count of userFavs by month
-            'SELECT COUNT(u.id) as count, MONTH(u.dateEnvoie) as month 
+        // count of userFavs by month
+            'SELECT 
+            
+            COUNT(u.id) as count, 
+            MONTH(u.dateEnvoie) as month, 
+            YEAR(u.dateEnvoie) as year
             FROM App\Entity\UserFav u
             GROUP BY month'
         );
