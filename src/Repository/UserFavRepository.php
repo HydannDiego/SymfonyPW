@@ -89,6 +89,23 @@ class UserFavRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function biensByFavorite(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            '
+            SELECT 
+                u.id as id, 
+                DAY(u.dateEnvoie) as day,  
+                MONTH(u.dateEnvoie) as month,
+                YEAR(u.dateEnvoie) as year
+            FROM App\Entity\UserFav u
+            '
+        );
+        return $query->getResult();
+    }
+
+
 //    /**
 //     * @return UserFav[] Returns an array of UserFav objects
 //     */
