@@ -36,7 +36,7 @@ class StatsController extends AbstractController
             'countByDay' => $userFavRepository->countByDay(),
             'countByMonth' => $userFavRepository->countByMonth(),
             'countByYear' => $userFavRepository->countByYear(),
-            'biensByFavorite' => $userFavRepository->biensByFavorite(),
+            //'biensByFavorite' => $userFavRepository->biensByFavorite(),
             'countByBienOrdered' => $userFavRepository->countByBienOrdered(),
             'users' => $userRepository->findAll(),
         ]);

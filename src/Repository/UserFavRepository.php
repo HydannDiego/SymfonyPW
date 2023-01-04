@@ -99,11 +99,15 @@ class UserFavRepository extends ServiceEntityRepository
         $query = $entityManager->createQuery(
             '
             SELECT 
-                u.id as id, 
-                DAY(u.dateEnvoie) as day,  
-                MONTH(u.dateEnvoie) as month,
-                YEAR(u.dateEnvoie) as year
-            FROM App\Entity\UserFav u
+            categorie.intitule as cname,
+            user_fav.date_envoie as date,
+            count(bien.id) as count
+            FROM App\Entity\UserFav user_fav
+            JOIN App\Entity\Categorie categorie 
+            WHERE bien.id_categorie_id = categorie.id
+            JOIN App\Entity\Bien bien
+            WHERE user_fav_bien.bien_id = bien.id
+            GROUP BY bien.id
             '
         );
         return $query->getResult();

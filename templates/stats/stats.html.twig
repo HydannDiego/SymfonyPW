@@ -38,10 +38,12 @@
     {#    {% set year = countByMonth[0]["year"] %}#}
     {#    {{ dump(year == "now"|date("Y")) }}#}
 
+{#    {{ dump(biensByFavorite()) }}#}
+
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div class="grid grid-flow-col mb-6">
-        {#                                        STATISTIQUE : Nombre de biens par catégorie#}
+{#                                                STATISTIQUE : Nombre de biens par catégorie#}
         <div class="grid grid-flow-col mb-6">
             <div class="chart-container p-5">
                 <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
@@ -96,21 +98,27 @@
                 </script>
             </div>
         </div>
-        {#                                        STATISTIQUE : Nombre de favoris créés à l'année#}
+{#                                                STATISTIQUE : Nombre de favoris créés à l'année#}
         <div class="grid grid-flow-col mb-6">
-            <div class="chart-container p-5" style="height:40vh; width:40vw">
+            <div class="chart-container p-5" style="height:50vh; width:50vw">
                 <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
-                    STATISTIQUE : Nombre de favoris créés par an
+                    STATISTIQUE : Meilleures catégories des favoris par jour
                 </h1>
                 <canvas id="chartCATFAV"></canvas>
                 <script>
                     const ctxCATFAV = document.getElementById('chartCATFAV').getContext('2d');
                     const dataCATFAV = {
-                        labels: ["1", "2", "3"],
+                        labels: [
+                            {% for i in 1..31 %}
+                            '{{ i }}',
+                            {% endfor %}
+                        ],
                         datasets: [{
-                            label: 'Nombre de favoris créés par an',
+                            label: 'Meilleures catégories des favoris par jour',
                             data: [
-                                1, 2, 3
+                                {% for i in 1..31 %}
+                                '{{ i }}',
+                                {% endfor %}
                             ],
                             fill: false,
                             borderColor: 'red',
@@ -118,7 +126,7 @@
                         }]
                     };
                     const chartCATFAV = new Chart(ctxCATFAV, {
-                        type: 'line',
+                        type: 'bar',
                         data: dataCATFAV,
                         options: {
                             responsive: true,
@@ -128,7 +136,7 @@
                                 },
                                 title: {
                                     display: true,
-                                    text: 'Diagramme du nombre de favoris créés par an'
+                                    text: ''
                                 }
                             }
                         }
@@ -139,7 +147,7 @@
     </div>
     <div class="p-1 mb-6">
         <div class="grid grid-flow-col mb-6">
-            {#                                                STATISTIQUE : Nombre de biens par catégorie#}
+{#                                                            STATISTIQUE : Nombre de biens par catégorie#}
             <div class="grid grid-flow-col mb-6">
                 <div class="chart-container p-5" style="height:45vh; width:45vw">
                     <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
@@ -193,7 +201,7 @@
                     </script>
                 </div>
             </div>
-            {#                                                STATISTIQUE : Nombre de biens par ville#}
+{#                                                            STATISTIQUE : Nombre de biens par ville#}
             <div class="grid grid-flow-col mb-6">
                 <div class="chart-container p-5">
                     <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
@@ -249,7 +257,7 @@
                 </div>
             </div>
         </div>
-        {#                                        STATISTIQUE : Nombre de favoris créés au mois#}
+{#                                                STATISTIQUE : Nombre de favoris créés au mois#}
         <div class="grid grid-flow-col mb-6">
             <div class="flex justify-between">
                 <div class="chart-container p-5" style="height:40vh; width:40vw">
@@ -307,7 +315,7 @@
                     </script>
                 </div>
             </div>
-            {#                                                STATISTIQUE : Nombre de favoris créés à l'année#}
+{#                                                            STATISTIQUE : Nombre de favoris créés à l'année#}
             <div class="grid grid-flow-col mb-6">
                 <div class="chart-container p-5" style="height:40vh; width:40vw">
                     <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
