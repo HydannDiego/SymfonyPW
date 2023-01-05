@@ -95,9 +95,7 @@ class UserFavRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    /**
-     * @throws Exception
-     */
+
     public function biensByFavorite(): array
     {
 
