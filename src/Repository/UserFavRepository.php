@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\UserFav;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
+use PDO;
 
 /**
  * @extends ServiceEntityRepository<UserFav>
@@ -93,24 +95,29 @@ class UserFavRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    /**
+     * @throws Exception
+     */
     public function biensByFavorite(): array
     {
-        $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery(
-            '
-            SELECT 
-            categorie.intitule as cname,
-            user_fav.date_envoie as date,
-            count(bien.id) as count
-            FROM App\Entity\UserFav user_fav
-            JOIN App\Entity\Categorie categorie 
-            WHERE bien.id_categorie_id = categorie.id
-            JOIN App\Entity\Bien bien
-            WHERE user_fav_bien.bien_id = bien.id
-            GROUP BY bien.id
-            '
-        );
-        return $query->getResult();
+
+        try {
+            $dbh = new PDO('mysql:host=localhost;dbname=saferpw;charset=utf8', 'root',);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+
+        $stmt = $dbh->prepare("SELECT categorie.intitule, user_fav.date_envoie,count(bien.id)
+                                     FROM user_fav_bien JOIN bien
+                                     ON user_fav_bien.bien_id = bien.id
+                                     JOIN  user_fav
+                                     ON user_fav.id = user_fav_bien.user_fav_id
+                                     JOIN categorie 
+                                     ON bien.id_categorie_id = categorie.id
+                                     GROUP by bien.id");
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result;
     }
 
 
