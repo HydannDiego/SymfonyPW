@@ -39,6 +39,7 @@ class BienController extends AbstractController
         } else {
             $lesBiens = $bienRepository->findAll();
             $titre = 'Affichage des biens';
+
         }
 
         return $this->render('bien/index.html.twig', [
