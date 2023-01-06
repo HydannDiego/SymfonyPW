@@ -50,6 +50,17 @@ class BienRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function getLocalisation(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT distinct p.ville,p.cp
+            FROM App\Entity\Bien p
+            ORDER BY p.ville asc
+            ');
+        return $query->getResult();
+    }
+
+
 //    /**
 //     * @return Bien[] Returns an array of Bien objects
 //     */
