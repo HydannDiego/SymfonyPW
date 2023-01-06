@@ -3,47 +3,9 @@
 {% block title %}Statistiques du site{% endblock %}
 
 {% block body %}
-
-    {#    {% set currentMonth = "now"|date("m") %}#}
-    {#    {% set currentYear = "now"|date("y") %}#}
-    {#    {% set mySet = [] %}#}
-    {#    {% for uf in userFavs %}#}
-    {#        {% for i in 0..biensByFavorite|length-1 %}#}
-    {#            {% if biensByFavorite[i]["month"] == currentMonth and uf.id == biensByFavorite[i]["id"] %}#}
-    {#                #}{#            {% if uf.id == biensByFavorite[i]["id"] %}#}
-    {#                {% set values = [] %}#}
-    {#                {% set values = [biensByFavorite[i]["id"], biensByFavorite[i]["day"], biensByFavorite[i]["month"], biensByFavorite[i]["year"], uf.getListOfBiens()] %}#}
-    {#                {% set mySet = mySet|merge([values]) %}#}
-    {#            {% endif %}#}
-    {#        {% endfor %}#}
-    {#    {% endfor %}#}
-
-    {#    {% set catByDays = [] %}#}
-    {#    {% for j in 0..mySet|length-1 %}#}
-    {#        {% set biensCheck = mySet[j][4] %}#}
-    {#        {% for bien in biensCheck %}#}
-    {#            {% for cat in categories %}#}
-
-    {#            {% endfor %}#}
-    {#        {% endfor %}#}
-    {#    {% endfor %}#}
-
-    {#    {% for i in 1..31 %}#}
-
-    {#    {% endfor %}#}
-
-
-    {#    {{ dump(mySet) }}#}
-
-    {#    {% set year = countByMonth[0]["year"] %}#}
-    {#    {{ dump(year == "now"|date("Y")) }}#}
-
-   {{ dump(biensByFavorite) }}
-
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div class="grid grid-flow-col mb-6">
-{#                                                STATISTIQUE : Nombre de biens par catégorie#}
+        {#                                               STATISTIQUE : Nombre de biens par catégorie#}
         <div class="grid grid-flow-col mb-6">
             <div class="chart-container p-5">
                 <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
@@ -98,13 +60,32 @@
                 </script>
             </div>
         </div>
-{#                                                STATISTIQUE : Nombre de favoris créés à l'année#}
+        {#                                                STATISTIQUE : Nombre de favoris créés à l'année#}
         <div class="grid grid-flow-col mb-6">
             <div class="chart-container p-5" style="height:50vh; width:50vw">
                 <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
                     STATISTIQUE : Meilleures catégories des favoris par jour
                 </h1>
                 <canvas id="chartCATFAV"></canvas>
+                {% set bestCatByDay = [] %}
+                {% for i in 1..31 %}
+                    {% set status = false %}
+                    {% for j in 0..biensByFavorite|length-1 %}
+                        {% if biensByFavorite[j] is defined %}
+                            {% set date = biensByFavorite[j][1] %}
+                            {% set year = date|date("Y") %}
+                            {% set month = date|date("m") %}
+                            {% set day = date|date("d") %}
+                            {% if day == i and year == "now"|date("Y") and month == "now"|date("m") and bestCatByDay[i] is not defined %}
+                                {% set bestCatByDay = bestCatByDay|merge([biensByFavorite[j][0]]) %}
+                                {% set status = true %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if status == false %}
+                        {% set bestCatByDay = bestCatByDay|merge([0]) %}
+                    {% endif %}
+                {% endfor %}
                 <script>
                     const ctxCATFAV = document.getElementById('chartCATFAV').getContext('2d');
                     const dataCATFAV = {
@@ -116,12 +97,26 @@
                         datasets: [{
                             label: 'Meilleures catégories des favoris par jour',
                             data: [
-                                {% for i in 1..31 %}
-                                '{{ i }}',
+                                {% for i in 0..bestCatByDay|length-1 %}
+                                {% if bestCatByDay[i] > 1 %}
+                                {% set a = [] %}
+                                {% for cat in categories %}
+                                {% if cat.intitule == bestCatByDay[i] %}
+                                {% set a = cat.id %}
+                                {{ a }},
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                0,
+                                {% endif %}
                                 {% endfor %}
                             ],
                             fill: false,
-                            borderColor: 'red',
+                            backgroundColor: [
+                                {% for i in 0..bestCatByDay|length-1 %}
+                                'rgb(0,113,206)',
+                                {% endfor %}
+                            ],
                             tension: 0.1
                         }]
                     };
@@ -138,6 +133,24 @@
                                     display: true,
                                     text: ''
                                 }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value, index, values) {
+                                            if (value == 0) {
+                                                return "Aucun";
+                                            }
+                                            //for in i 0 to categories|length-1 if value == i return categories[i].intitule
+                                            {% for cat in categories %}
+                                            if (value == {{ cat.id }}) {
+                                                return "{{ cat.intitule }}";
+                                            }
+                                            {% endfor %}
+                                        }
+                                    }
+                                }
                             }
                         }
                     });
@@ -147,7 +160,7 @@
     </div>
     <div class="p-1 mb-6">
         <div class="grid grid-flow-col mb-6">
-{#                                                            STATISTIQUE : Nombre de biens par catégorie#}
+            {#                                                            STATISTIQUE : Nombre de biens par catégorie#}
             <div class="grid grid-flow-col mb-6">
                 <div class="chart-container p-5" style="height:45vh; width:45vw">
                     <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
@@ -201,7 +214,7 @@
                     </script>
                 </div>
             </div>
-{#                                                            STATISTIQUE : Nombre de biens par ville#}
+            {#                                                            STATISTIQUE : Nombre de biens par ville#}
             <div class="grid grid-flow-col mb-6">
                 <div class="chart-container p-5">
                     <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
@@ -257,7 +270,7 @@
                 </div>
             </div>
         </div>
-{#                                                STATISTIQUE : Nombre de favoris créés au mois#}
+        {#                                                STATISTIQUE : Nombre de favoris créés au mois#}
         <div class="grid grid-flow-col mb-6">
             <div class="flex justify-between">
                 <div class="chart-container p-5" style="height:40vh; width:40vw">
@@ -315,7 +328,7 @@
                     </script>
                 </div>
             </div>
-{#                                                            STATISTIQUE : Nombre de favoris créés à l'année#}
+            {#                                                            STATISTIQUE : Nombre de favoris créés à l'année#}
             <div class="grid grid-flow-col mb-6">
                 <div class="chart-container p-5" style="height:40vh; width:40vw">
                     <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
