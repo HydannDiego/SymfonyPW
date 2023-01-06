@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UserFav index{% endblock %}
+
+{% block body %}
+    <h1 class="text-center text-4xl font-bold tracking-tight leading-none text-gray-900 md:text-3xl lg:text-3xl dark:text-white">Gerer favoris</h1>
+
+<div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="overflow-hidden">
+                <div class="relative shadow-md sm:rounded-lg">
+                    <table class="min-w-full w-full text-sm text-left table-auto">
+                        <thead class="border-b bg-gray-800">
+                            <tr>
+                                <th scope="col" class="text-sm font-medium text-white px-6 py-4">Id</th>
+                                <th scope="col" class="text-sm font-medium text-white px-6 py-4">User Email</th>
+                                <th scope="col" class="text-sm font-medium text-white px-6 py-4">Date Envoie</th>
+                                <th scope="col" class="text-sm font-medium text-white px-6 py-4">Bien Id</th>
+                                <th scope="col" class="text-sm font-medium text-white px-6 py-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for user_fav in user_favs %}
+                            <tr class="bg-gray-100 border-b hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ user_fav.id }}</td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ user_fav.emailUser }}</td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ user_fav.dateEnvoie }}</td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {% for id in user_fav.idBien %}
+                                        {{ id }}
+                                    {% endfor %}
+                                </td>
+                                <td class="text-sm px-6 py-4 whitespace-nowrap">
+                                    <a href="{{ path('app_user_fav_crud_show', {'id': user_fav.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">show</a>
+                                    <a href="{{ path('app_user_fav_crud_edit', {'id': user_fav.id}) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="11" class="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">No records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <a href="{{ path('app_user_fav_crud_new') }}" class="flex flex-col items-center text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Create new</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
