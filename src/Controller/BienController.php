@@ -14,44 +14,39 @@ class BienController extends AbstractController
     public function index(BienRepository $bienRepository, CategorieRepository $categorieRepository): Response
     {
         if (isset($_GET["Categ"]) && isset($_GET["Type"])) {
+
             $id = $_GET["Categ"];
-            $intitCateg =$categorieRepository->affichageIntit($id);
             $type = $_GET["Type"];
+
+            $intitCateg = $categorieRepository->affichageIntit($id);
             $intitType = ($type == 0) ? 'Achat' : 'Location';
+
             if ($id == "") {
                 if ($type == "") {
-                    return $this->render('bien/index.html.twig', [
-                        'lesBiens' => $bienRepository->findAll(),
-                        'lesCateg' => $categorieRepository->findAll(),
-                        'titre' => 'Affichage des biens'
-                    ]);
+                    $lesBiens = $bienRepository->findAll();
+                    $titre = 'Affichage des biens';
                 } else {
-                    return $this->render('bien/index.html.twig', [
-                        'lesBiens' => $bienRepository->findBy(['is_locatif' => $type]),
-                        'lesCateg' => $categorieRepository->findAll(),
-                        'titre' => "Affichage Catégorie : ".$intitType,
-                    ]);
+                    $lesBiens = $bienRepository->findBy(['is_locatif' => $type]);
+                    $titre = "Affichage Catégorie : " . $intitType;
                 }
-            } else if ($type == "") {
-                return $this->render('bien/index.html.twig', [
-                    'lesBiens' => $bienRepository->findBy(['id_categorie' => $id]),
-                    'lesCateg' => $categorieRepository->findAll(),
-                    'titre' => "Affichage Catégorie : ".$intitCateg[0]["intitule"],
-                ]);
+            } elseif ($type == "") {
+                $lesBiens = $bienRepository->findBy(['id_categorie' => $id, 'is_locatif' => $type]);
+                $titre = "Affichage Catégorie : " . $intitCateg[0]["intitule"];
             } else {
-                return $this->render('bien/index.html.twig', [
-                    'lesBiens' => $bienRepository->findBy(['id_categorie' => $id, 'is_locatif' => $type]),
-                    'lesCateg' => $categorieRepository->findAll(),
-                    'titre' => "Affichage Catégorie : ".$intitCateg[0]["intitule"]." et ".$intitType,
-                ]);
+                $lesBiens = $bienRepository->findBy(['id_categorie' => $id, 'is_locatif' => $type]);
+                $titre = "Affichage Catégorie : " . $intitCateg[0]["intitule"] . " et " . $intitType;
             }
         } else {
-            return $this->render('bien/index.html.twig', [
-                'lesBiens' => $bienRepository->findAll(),
-                'lesCateg' => $categorieRepository->findAll(),
-                'titre' => 'Affichage des biens'
-            ]);
+            $lesBiens = $bienRepository->findAll();
+            $titre = 'Affichage des biens';
+
         }
+
+        return $this->render('bien/index.html.twig', [
+            'lesBiens' => $lesBiens,
+            'lesCateg' => $categorieRepository->findAll(),
+            'titre' => $titre,
+        ]);
     }
 
     #[Route('/bien/{id}', name: 'app_bien_show')]

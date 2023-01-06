@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\UserFav;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
+use PDO;
 
 /**
  * @extends ServiceEntityRepository<UserFav>
@@ -43,10 +45,38 @@ class UserFavRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
-            // count of userFavs by month
-            'SELECT COUNT(u.id) as count, MONTH(u.dateEnvoie) as month 
+        // count of userFavs by month
+            'SELECT 
+            
+            COUNT(u.id) as count, 
+            MONTH(u.dateEnvoie) as month, 
+            YEAR(u.dateEnvoie) as year
             FROM App\Entity\UserFav u
             GROUP BY month'
+        );
+        return $query->getResult();
+    }
+
+    public function countByYear(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+        // count of userFavs by month
+            'SELECT COUNT(u.id) as count, YEAR(u.dateEnvoie) as year 
+            FROM App\Entity\UserFav u
+            GROUP BY year'
+        );
+        return $query->getResult();
+    }
+
+    public function countByDay(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+        // count of userFavs by month
+            'SELECT COUNT(u.id) as count, DAY(u.dateEnvoie) as day 
+            FROM App\Entity\UserFav u
+            GROUP BY day'
         );
         return $query->getResult();
     }
@@ -64,6 +94,30 @@ class UserFavRepository extends ServiceEntityRepository
         );
         return $query->getResult();
     }
+
+
+    public function biensByFavorite(): array
+    {
+
+        try {
+            $dbh = new PDO('mysql:host=localhost;dbname=saferpw;charset=utf8', 'root',);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+
+        $stmt = $dbh->prepare("SELECT categorie.intitule, user_fav.date_envoie,count(bien.id)
+                                     FROM user_fav_bien JOIN bien
+                                     ON user_fav_bien.bien_id = bien.id
+                                     JOIN  user_fav
+                                     ON user_fav.id = user_fav_bien.user_fav_id
+                                     JOIN categorie 
+                                     ON bien.id_categorie_id = categorie.id
+                                     GROUP by bien.id");
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result;
+    }
+
 
 //    /**
 //     * @return UserFav[] Returns an array of UserFav objects

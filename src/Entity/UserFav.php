@@ -87,4 +87,21 @@ class UserFav
         return $this;
     }
 
+    public function getListOfBiens(): array
+    {
+        return $this->id_bien->toArray();
+    }
+
+    public function getListOfBiensById($id): array
+    {
+        $biens = $this->id_bien->toArray();
+        $biensById = [];
+        foreach ($biens as $bien) {
+            if ($bien->getId() == $id) {
+                $biensById[] = $bien;
+            }
+        }
+        return $biensById;
+    }
+
 }
