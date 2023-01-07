@@ -15,6 +15,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FavorisController extends AbstractController
 {
+    /**
+     * On récupère les éléments favoris de la session, récupère les données de chaque élément, puis restitue le modèle
+     *
+     * @param SessionInterface session L'objet de session
+     * @param BienRepository bienRepository Il s'agit du référentiel de l'entité Bien.
+     *
+     * @return Response La page favorite est renvoyée.
+     */
     #[Route('/favorite', name: 'app_favorite')]
     public function index(SessionInterface $session, BienRepository $bienRepository): Response
     {
@@ -40,6 +48,15 @@ class FavorisController extends AbstractController
         }
     }
 
+    /**
+     * Il obtient la variable de session favorite, ajoute l'identifiant du bien au tableau, puis le rajoute dans la
+     * variable de session
+     *
+     * @param int id L'id du Bien à ajouter aux favoris
+     * @param SessionInterface session L'objet de session.
+     *
+     * redirection vers la route nommée app_favorite
+     */
     #[Route('/favorite/add/{id}', name: 'favorite_add')]
     public function add(int $id, SessionInterface $session)
     {
@@ -52,6 +69,14 @@ class FavorisController extends AbstractController
         return $this->redirectToRoute("app_favorite");
     }
 
+    /**
+     * Il supprime le produit de la session
+     *
+     * @param int id L'identifiant du produit à supprimer de la liste des favoris.
+     * @param SessionInterface session L'objet de session
+     *
+     * redirection vers la route "app_favorite"
+     */
     #[Route('/favorite/remove/{id}', name: 'favorite_remove')]
     public function remove(int $id, SessionInterface $session)
     {
@@ -64,9 +89,18 @@ class FavorisController extends AbstractController
         $session->set('favorite', $favorite);
 
         return $this->redirectToRoute("app_favorite");
-
     }
 
+    /**
+     * On envoie un email à l'utilisateur avec la liste de ses favoris
+     *
+     * @param EntityManagerInterface entityManager L'EntityManagerInterface est le point d'accès central à la
+     * fonctionnalité ORM.
+     * @param BienRepository bienRepository Le référentiel de l'entité Bien.
+     * @param SessionInterface session L'objet de session.
+     *
+     * redirection vers la route "app_favorite"
+     */
     #[Route('/favoris/envoie', name: 'app_envoie')]
     public function envoie(EntityManagerInterface $entityManager, BienRepository $bienRepository, SessionInterface $session)
     {
@@ -82,6 +116,7 @@ class FavorisController extends AbstractController
         $tabId = $session->get('favorite', []);
 
 
+        /* Parcourir le tableau des éléments favoris et les ajouter au corps de l'e-mail. */
         foreach ($tabId as $key => $value) {
             $unBien = $bienRepository->find($key);
             $uneRef = $bienRepository->getRef($key);
@@ -93,6 +128,7 @@ class FavorisController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
+        /* Il s'agit d'un bloc try catch. Il est utilisé pour intercepter les exceptions. */
         try {
             $mail = new PHPMailer;
             $mail->isSMTP();                            // Set mailer to use SMTP

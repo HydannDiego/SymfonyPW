@@ -46,9 +46,7 @@ class UserFavRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
         // count of userFavs by month
-            'SELECT 
-            
-            COUNT(u.id) as count, 
+            'SELECT COUNT(u.id) as count, 
             MONTH(u.dateEnvoie) as month, 
             YEAR(u.dateEnvoie) as year
             FROM App\Entity\UserFav u
@@ -105,6 +103,10 @@ class UserFavRepository extends ServiceEntityRepository
             die('Erreur : ' . $e->getMessage());
         }
 
+        /* Une requête SQL qui sélectionne categorie.intitule, user_fav.date_envoie et count(bien.id) de la table
+        user_fav_bien, rejoignant la table bien sur user_fav_bien.bien_id = bien.id, rejoignant la table user_fav sur
+        user_fav.id = user_fav_bien.user_fav_id, en rejoignant la table categorie sur le bien.id_categorie_id =
+        categorie.id, et en regroupant par bien.id. */
         $stmt = $dbh->prepare("SELECT categorie.intitule, user_fav.date_envoie,count(bien.id)
                                      FROM user_fav_bien JOIN bien
                                      ON user_fav_bien.bien_id = bien.id
@@ -117,30 +119,4 @@ class UserFavRepository extends ServiceEntityRepository
         $result = $stmt->fetchAll();
         return $result;
     }
-
-
-//    /**
-//     * @return UserFav[] Returns an array of UserFav objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?UserFav
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

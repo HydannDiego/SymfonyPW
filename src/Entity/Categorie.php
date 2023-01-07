@@ -11,13 +11,13 @@ class Categorie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-
     private ?int $id = null;
 
     #[ORM\Column(length: 60)]
     private ?string $intitule = null;
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->intitule;
     }
 

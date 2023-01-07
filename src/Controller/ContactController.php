@@ -15,19 +15,28 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
+    /**
+     * Nous créons un nouvel objet de contact, créons un formulaire, gérons la réponse du formulaire, puis on renvoie le
+     * formulaire
+     *
+     * @param Request request L'objet de la requête.
+     * @param EntityManagerInterface entityManager C'est le service qui nous permet d'interagir avec la base de données.
+     *
+     * @return Response Le formulaire est renvoyé.
+     */
     #[Route('/contact', name: 'app_contact')]
     public function createAction(Request $request, EntityManagerInterface $entityManager): Response
     {
         $contact = new Contact;
         $form = $this->createForm(ContactFormType::class, $contact)
-            ->add('nom', TextType::class, array('label'=> 'Nom', 'attr' => array('class' => 'form-control', 'style' => 'margin-bottom:15px')))
-            ->add('email', EmailType::class, array('label'=> 'Email','attr' => array('class' => 'form-control', 'style' => 'margin-bottom:15px')));
+            ->add('nom', TextType::class, array('label' => 'Nom', 'attr' => array('class' => 'form-control', 'style' => 'margin-bottom:15px')))
+            ->add('email', EmailType::class, array('label' => 'Email', 'attr' => array('class' => 'form-control', 'style' => 'margin-bottom:15px')));
         /*->add('Save', SubmitType::class, array('label'=> 'Submit', 'attr' => array('class' => 'btn btn-primary', 'style' => 'margin-top:15px')))*/
 
         # Handle form response
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() &&  $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $nom = $form['nom']->getData();
             $email = $form['email']->getData();
 

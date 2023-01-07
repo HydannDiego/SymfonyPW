@@ -11,6 +11,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class BienController extends AbstractController
 {
     #[Route('/bien', name: 'app_bien')]
+    /**
+     * Si l'utilisateur a sélectionné une catégorie, un type et un emplacement, alors nous affichons les propriétés
+     * correspondantes. Sinon, nous affichons toutes les propriétés
+     *
+     * @param BienRepository bienRepository Le référentiel de l'entité Bien.
+     * @param CategorieRepository categorieRepository Le référentiel de l'entité Catégorie.
+     *
+     * @return Response La fonction index renvoie le rendu du fichier index.html.twig.
+     */
     public function index(BienRepository $bienRepository, CategorieRepository $categorieRepository): Response
     {
 
@@ -82,6 +91,16 @@ class BienController extends AbstractController
         ]);
     }
 
+    /**
+     * Il prend l'identifiant d'un bien, trouve le bien dans la base de données et affiche le modèle show.html.twig avec
+     * les variables bien et categories
+     *
+     * @param CategorieRepository categorieRepository C'est le service que nous avons créé à l'étape précédente.
+     * @param BienRepository bienRepository Il s'agit du référentiel de l'entité Bien.
+     * @param int id L'identifiant du bien à afficher
+     *
+     * @return Response Le modèle show.html.twig est renvoyé.
+     */
     #[Route('/bien/{id}', name: 'app_bien_show')]
     public function show(CategorieRepository $categorieRepository, BienRepository $bienRepository, int $id): Response
     {
