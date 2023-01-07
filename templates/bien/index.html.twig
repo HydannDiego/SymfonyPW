@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <form>
+    <form method="post">
         <h1 class="text-center py-4 px-3 text-gray-600 font-bold hover:text-green-600 transition duration-300">Filtrage
             recherche biens</h1>
-        <div class="flex justify-center h-10">
-            <div class="mb-3 xl:w-96 mr-5">
+        <div class="flex justify-center h-10 ">
+            <div class="mb-3 xl:w-72 mr-10">
                 <select name="Categ" class="form-select appearance-none
       block
       w-full
@@ -28,7 +28,32 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="mb-3 xl:w-96 mr-10">
+            <div class="mb-3 xl:w-72 mr-10">
+                <select name="local" class="form-select appearance-none
+      block
+      w-full
+      px-3
+      py-1.5
+      text-base
+      font-normal
+      text-gray-700
+      bg-white bg-clip-padding bg-no-repeat
+      border border-solid border-gray-300
+      rounded
+      transition
+      ease-in-out
+      m-0
+      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                    <option value="">-- Aucune option --</option>
+                    {% for uneLocalisation in localisation %}
+                        <option value="{{ uneLocalisation.cp }}">
+                            {{ uneLocalisation.ville }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3 xl:w-72 mr-10">
                 <select name="Type" class="form-select appearance-none
       block
       w-full
@@ -53,6 +78,30 @@
                     </option>
                 </select>
             </div>
+            <div class="mb-3 w-28 mr-10">
+                <input
+                        type="number"
+                        class="
+        form-control
+        block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+                        placeholder="{% if prix == 999999 %}Prix max{% else %} {{ prix }}{% endif %}"
+                        name="Price"
+                />
+            </div>
             <div class="flex space-x-2 justify-center">
                 <button type="submit"
                         class="inline-block px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
@@ -65,27 +114,29 @@
     <h1 class="text-center py-4 px-3 text-gray-600 text-2xl font-bold hover:text-green-600 transition duration-300">{{ titre }}</h1>
     <div class="flex flex-wrap md:space-x-4 justify-center px-4">
         {% for unBien in lesBiens %}
-            <div class="w-80 h-90 rounded overflow-hidden shadow-lg my-9">
-                <img class="w-full h-48" src="/assets/img/photoSite/{{ unBien.image }}.jpg">
-                <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2 h-20">{{ unBien.titre }}</div>
-                    <p class="text-gray-700 text-base h-32">
-                        {{ unBien.description }}
-                    </p>
+            {% if unBien.prix <= prix %}
+                <div class="w-80 h-90 rounded overflow-hidden shadow-lg my-9">
+                    <img class="w-full h-48" src="/assets/img/photoSite/{{ unBien.image }}.jpg">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2 h-20">{{ unBien.titre }}</div>
+                        <p class="text-gray-700 text-base h-32">
+                            {{ unBien.description }}
+                        </p>
+                    </div>
+                    <div class="px-6 pt-4 pb-2">
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{% if unBien.islocatif == 0 %} Achat {% else %} Location {% endif %}</span>
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Disponible</span>
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Récent</span>
+                    </div>
+                    <div class="flex justify-center">
+                        <a href="{{ path('app_bien') }}/{{ unBien.id }}">
+                            <button class="bg-green-600 hover:bg-blue-500 text-white font-semibold hover:text-white py-2 px-4 border hover:border-transparent rounded mb-2">
+                                En savoir plus
+                            </button>
+                        </a>
+                    </div>
                 </div>
-                <div class="px-6 pt-4 pb-2">
-                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{% if unBien.islocatif == null %} Achat {% else %} Location {% endif %}</span>
-                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Disponible</span>
-                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Récent</span>
-                </div>
-                <div class="flex justify-center">
-                    <a href="{{ path('app_bien') }}/{{ unBien.id }}">
-                        <button class="bg-green-600 hover:bg-blue-500 text-white font-semibold hover:text-white py-2 px-4 border hover:border-transparent rounded mb-2">
-                            En savoir plus
-                        </button>
-                    </a>
-                </div>
-            </div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

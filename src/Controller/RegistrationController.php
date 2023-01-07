@@ -13,6 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
 {
+    /**
+     * On prend une requête, un hacheur de mot de passe et un gestionnaire d'entités, et renvoie une réponse pour enregistrer un
+     * nouveau compte
+     *
+     * @param Request request L'objet de requête entrant.
+     * @param UserPasswordHasherInterface userPasswordHasher C'est le service qui sera utilisé pour hacher le mot de passe
+     * de l'utilisateur.
+     * @param EntityManagerInterface entityManager C'est le service qui nous permet de persister et de vider notre objet
+     * User dans la base de données.
+     *
+     * @return Response Un objet de réponse.
+     */
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {

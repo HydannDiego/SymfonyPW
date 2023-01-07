@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Bien;
-use App\Entity\Contact;
 use App\Form\BienType;
 use App\Repository\BienRepository;
 use App\Repository\ContactRepository;
@@ -25,6 +24,7 @@ class BienCRUDController extends AbstractController
         ]);
     }
 
+    /* C'est la nouvelle fonction du BienCRUDController. Il est utilisé pour créer un nouveau bien. */
     #[Route('/new', name: 'app_bien_c_r_u_d_new', methods: ['GET', 'POST'])]
     public function new(Request $request, BienRepository $bienRepository, ContactRepository $contactRepository): Response
     {
@@ -32,6 +32,8 @@ class BienCRUDController extends AbstractController
         $form = $this->createForm(BienType::class, $bien);
         $form->handleRequest($request);
 
+        /* C'est le code qui envoie un e-mail à tous les contacts de la base de données lorsqu'une nouvelle propriété est
+        ajoutée. */
         if ($form->isSubmitted() && $form->isValid()) {
             $bienRepository->save($bien, true);
             $lesContacts = $contactRepository->findAll();
@@ -52,7 +54,7 @@ class BienCRUDController extends AbstractController
                     //Content
                     $mail->isHTML(true);                                  //Set email format to HTML
                     $mail->Subject = 'Un nouveau bien est disponible';
-                    $mail->Body = 'Bonjour ' . $contact->getNom() . ',</br>' . 'Un nouveau bien est disponible dans notre catalogue.'.'</br>'.'</br>'.'Voici les quelques informations concernant ce bien' . '</br>' .' Titre : '.$bien->getTitre(). '</br>'.' Ville : '.$bien->getVille().'</br>'.'Surface : '.$bien->getSurface().'</br>'.'Ref : '.$bien->getRef().'</br>'.'Prix : '.$bien->getPrix().'</br>'.'</br>'.'Rendez-vous sur notre ' . '<a href="http://localhost:8000/bien/'.$bien->getId().'">site</a>' . ' pour plus d\'informations';
+                    $mail->Body = 'Bonjour ' . $contact->getNom() . ',</br>' . 'Un nouveau bien est disponible dans notre catalogue.' . '</br>' . '</br>' . 'Voici les quelques informations concernant ce bien' . '</br>' . ' Titre : ' . $bien->getTitre() . '</br>' . ' Ville : ' . $bien->getVille() . '</br>' . 'Surface : ' . $bien->getSurface() . '</br>' . 'Ref : ' . $bien->getRef() . '</br>' . 'Prix : ' . $bien->getPrix() . '</br>' . '</br>' . 'Rendez-vous sur notre ' . '<a href="http://localhost:8000/bien/' . $bien->getId() . '">site</a>' . ' pour plus d\'informations';
                     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
                     $mail->send();

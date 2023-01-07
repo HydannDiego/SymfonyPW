@@ -9,6 +9,14 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
 {
+    /**
+     * On rend le formulaire de connexion et transmet le dernier nom d'utilisateur et l'erreur au modèle (s'il y en a)
+     *
+     * @param AuthenticationUtils authenticationUtils Il s'agit d'un service fourni par Symfony qui contient des
+     * informations sur le processus d'authentification.
+     *
+     * @return Response Un objet de réponse
+     */
     #[Route('/connexion', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {

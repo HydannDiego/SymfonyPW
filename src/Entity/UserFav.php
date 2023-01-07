@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\UserFavRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserFavRepository::class)]
@@ -19,13 +18,14 @@ class UserFav
     #[ORM\Column(length: 255)]
     private ?string $email_user = null;
 
-    #[ORM\ManyToMany(targetEntity: bien::class, inversedBy: 'userFavs')]
+    #[ORM\ManyToMany(targetEntity: Bien::class, inversedBy: 'userFavs')]
     private Collection $id_bien;
 
     #[ORM\Column(length: 255)]
     private ?string $dateEnvoie = null;
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->dateEnvoie;
     }
 

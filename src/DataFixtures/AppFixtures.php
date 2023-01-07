@@ -9,6 +9,11 @@ use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
+    /**
+     * On crée 30 objets Bien, chacun avec un titre, une description, un prix, etc.
+     *
+     * @param ObjectManager manager L'instance EntityManagerInterface.
+     */
     public function load(ObjectManager $manager): void
     {
         $categTA = new Categorie();
@@ -58,7 +63,7 @@ class AppFixtures extends Fixture
         $bien3->setImage("23.16.104");
         $bien3->setIdCategorie($categBA);
 
-        $bien4  = new Bien();
+        $bien4 = new Bien();
         $bien4->setTitre("Propriété Gard");
         $bien4->setDescription("Ensemble immobilier proche d'un plan d'eau aménagé");
         $bien4->setCp("34290");
@@ -70,7 +75,7 @@ class AppFixtures extends Fixture
         $bien4->setImage("30VI9700");
         $bien4->setIdCategorie($categEX);
 
-        $bien5  = new Bien();
+        $bien5 = new Bien();
         $bien5->setTitre("Idéale société de chasse");
         $bien5->setDescription("Terrain boisé classé ONF");
         $bien5->setCp("22700");
@@ -250,7 +255,7 @@ class AppFixtures extends Fixture
         $bien19->setImage("64.03.60");
         $bien19->setIdCategorie($categBA);
 
-        $bien20= new Bien();
+        $bien20 = new Bien();
         $bien20->setTitre("Terrain classé T4");
         $bien20->setDescription("cloturé et partiellement boisé");
         $bien20->setCp("56500");
@@ -298,7 +303,7 @@ class AppFixtures extends Fixture
         $bien23->setImage("76RZDC");
         $bien23->setIdCategorie($categPR);
 
-        $bien24= new Bien();
+        $bien24 = new Bien();
         $bien24->setTitre("Secteur du Ségala-Viaur");
         $bien24->setDescription("Propriété Charente-Maritime");
         $bien24->setCp("12200");
@@ -381,7 +386,6 @@ class AppFixtures extends Fixture
         $bien30->setRef("Z34.345.45");
         $bien30->setImage("Z34.345.45");
         $bien30->setIdCategorie($categPR);
-
 
 
         $manager->persist($categTA);

@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Categorie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -41,22 +39,11 @@ class CategorieRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Categorie[] Returns an array of Categorie objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-
+    /**
+     * On renvoie un tableau du nombre de propriétés par catégorie
+     *
+     * @return array Un tableau des catégories et le nombre de propriétés dans chaque catégorie.
+     */
     public function countSorted(): array
     {
         $entityManager = $this->getEntityManager();
@@ -71,6 +58,11 @@ class CategorieRepository extends ServiceEntityRepository
     }
 
 
+    /**
+     * On renvoie un tableau des villes avec le plus de propriétés
+     *
+     * @return array La requête renvoie l'identifiant maximum de la catégorie et la ville de la propriété.
+     */
     public function countByCity(): array
     {
         $entityManager = $this->getEntityManager();
@@ -87,6 +79,11 @@ class CategorieRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    /**
+     * On renvoie l'identifiant maximum d'une propriété pour chaque ville
+     *
+     * @return array L'id max de la catégorie et le cp du bien
+     */
     public function countByCode(): array
     {
         $entityManager = $this->getEntityManager();
@@ -103,6 +100,11 @@ class CategorieRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    /**
+     * On renvoie le nom d'une catégorie en fonction de son identifiant
+     *
+     * @param id L'identifiant de la catégorie dont vous souhaitez obtenir le nom.
+     */
     public function affichageIntit($id): array
     {
 

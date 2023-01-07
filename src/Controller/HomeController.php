@@ -14,7 +14,7 @@ class HomeController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'home')]
-    public function home(BienRepository $bienRepository) : Response
+    public function home(BienRepository $bienRepository): Response
     {
         return $this->render('body.html.twig', [
             'lesBiens' => $bienRepository->findAll(),
@@ -26,7 +26,7 @@ class HomeController extends AbstractController
      * @return Response
      */
     #[Route('/categories', name: 'categories')]
-    public function categories() : Response
+    public function categories(): Response
     {
         return $this->render('categories.html.twig');
     }
@@ -36,7 +36,7 @@ class HomeController extends AbstractController
      * @return Response
      */
     #[Route('/about', name: 'about')]
-    public function about() : Response
+    public function about(): Response
     {
         return $this->render('body.html.twig');
     }
@@ -46,7 +46,7 @@ class HomeController extends AbstractController
      * @return Response
      */
     #[Route('/contact', name: 'contact')]
-    public function contact() : Response
+    public function contact(): Response
     {
         return $this->render('body.html.twig');
     }

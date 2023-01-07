@@ -39,6 +39,13 @@ class BienRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * On renvoie la référence d'une propriété
+     *
+     * @param id L'identifiant de la propriété
+     *
+     * @return array La référence du bien
+     */
     public function getRef($id): array
     {
         $entityManager = $this->getEntityManager();
@@ -50,28 +57,18 @@ class BienRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-//    /**
-//     * @return Bien[] Returns an array of Bien objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('b.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Bien
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * On renvoie un tableau de toutes les villes et codes postaux distincts des propriétés dans la base de données
+     *
+     * @return array Un tableau de toutes les villes et codes postaux des propriétés.
+     */
+    public function getLocalisation(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT distinct p.ville,p.cp
+            FROM App\Entity\Bien p
+            ORDER BY p.ville asc
+            ');
+        return $query->getResult();
+    }
 }
