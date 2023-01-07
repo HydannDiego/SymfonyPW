@@ -46,7 +46,9 @@ class UserFavRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(
         // count of userFavs by month
-            'SELECT COUNT(u.id) as count, 
+            'SELECT 
+            
+            COUNT(u.id) as count, 
             MONTH(u.dateEnvoie) as month, 
             YEAR(u.dateEnvoie) as year
             FROM App\Entity\UserFav u
@@ -103,20 +105,66 @@ class UserFavRepository extends ServiceEntityRepository
             die('Erreur : ' . $e->getMessage());
         }
 
-        /* Une requête SQL qui sélectionne categorie.intitule, user_fav.date_envoie et count(bien.id) de la table
-        user_fav_bien, rejoignant la table bien sur user_fav_bien.bien_id = bien.id, rejoignant la table user_fav sur
-        user_fav.id = user_fav_bien.user_fav_id, en rejoignant la table categorie sur le bien.id_categorie_id =
-        categorie.id, et en regroupant par bien.id. */
-        $stmt = $dbh->prepare("SELECT categorie.intitule, user_fav.date_envoie,count(bien.id)
+        $stmt = $dbh->prepare("SELECT categorie, date, MAX(count) as count, id
+                                     FROM(SELECT categorie.intitule as categorie, CAST(user_fav.date_envoie AS date) as date, count(categorie.intitule) as count, categorie.id
                                      FROM user_fav_bien JOIN bien
                                      ON user_fav_bien.bien_id = bien.id
                                      JOIN  user_fav
                                      ON user_fav.id = user_fav_bien.user_fav_id
                                      JOIN categorie 
                                      ON bien.id_categorie_id = categorie.id
-                                     GROUP by bien.id");
+                                     GROUP BY categorie, date) as x
+                                     GROUP BY date, categorie
+                                     ORDER BY date, count DESC");
         $stmt->execute();
-        $result = $stmt->fetchAll();
-        return $result;
+        return $stmt->fetchAll();
     }
+
+    public function biensByDepartment(): array
+    {
+
+        try {
+            $dbh = new PDO('mysql:host=localhost;dbname=saferpw;charset=utf8', 'root',);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+
+        $stmt = $dbh->prepare("SELECT titre, department, MAX(count) as count
+                                     FROM(SELECT bien.titre as titre, bien.cp as department, count(bien.titre) as count
+                                     FROM user_fav_bien JOIN bien
+                                     ON user_fav_bien.bien_id = bien.id
+                                     JOIN  user_fav
+                                     ON user_fav.id = user_fav_bien.user_fav_id
+                                     GROUP BY titre) as x
+                                     GROUP BY department
+                                     ORDER BY titre, count DESC");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+
+//    /**
+//     * @return UserFav[] Returns an array of UserFav objects
+//     */
+//    public function findByExampleField($value): array
+//    {
+//        return $this->createQueryBuilder('u')
+//            ->andWhere('u.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('u.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
+
+//    public function findOneBySomeField($value): ?UserFav
+//    {
+//        return $this->createQueryBuilder('u')
+//            ->andWhere('u.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//        ;
+//    }
 }
