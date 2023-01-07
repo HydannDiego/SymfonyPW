@@ -21,6 +21,15 @@ class StatsController extends AbstractController
     /**
      * @throws Exception
      */
+    /**
+     * On renvoie une réponse qui affiche un modèle
+     *
+     * @param CategorieRepository categorieRepository le référentiel de l'entité catégorie
+     * @param BienRepository repository la classe de référentiel de l'entité dont vous souhaitez afficher les statistiques
+     * @param ContactRepository contactRepository le référentiel de l'entité Contact
+     * @param UserFavRepository userFavRepository le référentiel de l'entité userFav
+     * @param UserRepository userRepository le référentiel de l'entité Utilisateur
+     */
     #[Route('/', name: 'stats', methods: ['GET'])]
     public function index(CategorieRepository $categorieRepository,
                           BienRepository $repository,
