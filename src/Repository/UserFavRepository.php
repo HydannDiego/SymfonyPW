@@ -105,17 +105,41 @@ class UserFavRepository extends ServiceEntityRepository
             die('Erreur : ' . $e->getMessage());
         }
 
-        $stmt = $dbh->prepare("SELECT categorie.intitule, user_fav.date_envoie,count(bien.id)
+        $stmt = $dbh->prepare("SELECT categorie, date, MAX(count) as count, id
+                                     FROM(SELECT categorie.intitule as categorie, CAST(user_fav.date_envoie AS date) as date, count(categorie.intitule) as count, categorie.id
                                      FROM user_fav_bien JOIN bien
                                      ON user_fav_bien.bien_id = bien.id
                                      JOIN  user_fav
                                      ON user_fav.id = user_fav_bien.user_fav_id
                                      JOIN categorie 
                                      ON bien.id_categorie_id = categorie.id
-                                     GROUP by bien.id");
+                                     GROUP BY categorie, date) as x
+                                     GROUP BY date, categorie
+                                     ORDER BY date, count DESC");
         $stmt->execute();
-        $result = $stmt->fetchAll();
-        return $result;
+        return $stmt->fetchAll();
+    }
+
+    public function biensByDepartment(): array
+    {
+
+        try {
+            $dbh = new PDO('mysql:host=localhost;dbname=saferpw;charset=utf8', 'root',);
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+
+        $stmt = $dbh->prepare("SELECT titre, department, MAX(count) as count
+                                     FROM(SELECT bien.titre as titre, bien.cp as department, count(bien.titre) as count
+                                     FROM user_fav_bien JOIN bien
+                                     ON user_fav_bien.bien_id = bien.id
+                                     JOIN  user_fav
+                                     ON user_fav.id = user_fav_bien.user_fav_id
+                                     GROUP BY titre) as x
+                                     GROUP BY department
+                                     ORDER BY titre, count DESC");
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
 

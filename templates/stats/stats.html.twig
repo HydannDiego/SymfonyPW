@@ -5,159 +5,159 @@
 {% block body %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div class="grid grid-flow-col mb-6">
-        {#                                               STATISTIQUE : Nombre de biens par catégorie#}
-        <div class="grid grid-flow-col mb-6">
-            <div class="chart-container p-5">
-                <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
-                    STATISTIQUE : Nombre de biens par Code Postal
-                </h1>
-                <div class="chart-container" style="position: relative; display: flex;
-                         align-items: center; justify-content: center;
-                         height:40vh; width:40vw">
-                    <canvas id="chartCP"></canvas>
+        <div class="p-1 mb-6">
+            <div class="grid grid-flow-col mb-6">
+        {#                                                STATISTIQUE : Meilleures catégories des favoris par jour#}
+                <div class="grid grid-flow-col mb-6">
+                    <div class="p-5 h-max" style="width:50vw">
+                        <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
+                            STATISTIQUE : Meilleures catégories des favoris par jour
+                        </h1>
+                        {% set bestCatByDay = [] %}
+                        {% for i in 0..30 %}
+                            {% set status = false %}
+                            {% for j in 0..biensByFavorite|length-1 %}
+                                {% if biensByFavorite[j] is defined %}
+                                    {% set date = biensByFavorite[j][1] %}
+                                    {% set year = date|date("Y") %}
+                                    {% set month = date|date("m") %}
+                                    {% set day = date|date("d") %}
+                                    {% if day == i and year == "now"|date("Y") and month == "now"|date("m") and bestCatByDay[i] is not defined %}
+                                        {% set bestCatByDay = bestCatByDay|merge([biensByFavorite[j]]) %}
+                                        {% set status = true %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if status == false %}
+                                {% set bestCatByDay = bestCatByDay|merge([0]) %}
+                            {% endif %}
+                        {% endfor %}
+                        <table class="min-w-full w-full text-sm text-left table-fixed">
+                            <thead class="border-b bg-gray-500">
+                            <tr>
+                                <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                    Date
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                    Categorie
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                    Count
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for bestCat in bestCatByDay %}
+                                <tr class="bg-gray-100 border-b hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    {% if bestCat == 0 %}
+                                    {% else %}
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ bestCat.date }}</td>
+                                        <td class="px-6 py-4">{{ bestCat.categorie }}</td>
+                                        <td class="px-6 py-4">{{ bestCat.count }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <script>
-                    const ctxCP = document.getElementById('chartCP').getContext('2d');
-                    const chartCP = new Chart(ctxCP, {
-                        type: 'bar',
-                        data: {
-                            labels: [
-                                {% for i in 0..countByCode|length-1 %}
-                                '{{ countByCode[i]["cp"] }}',
-                                {% endfor %}
-                            ],
-                            datasets: [{
-                                label: 'Nombre de biens par Code Postal',
-                                data: [
-                                    {% for i in 0..countByCity|length-1 %}
-                                    {{ countByCode[i]["max"] }},
-                                    {% endfor %}
-                                ],
-                                backgroundColor: [
-                                    {% for i in 0..countByCity|length-1 %}
-                                    {% set r = 0 %}
-                                    {% set g = random(100,200) %}
-                                    {% set b = random(150,255) %}
-                                    'rgb({{ r }}, {{ g }}, {{ b }})',
-                                    // 'rgb(0,113,206)',
-                                    {% endfor %}
-                                ],
-                            }],
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    position: 'bottom',
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Diagramme du nombre de biens par code postal'
-                                }
-                            }
-                        }
-                    });
-                </script>
+            {#                                                STATISTIQUE :  Les biens préférés par departement#}
+            <div class="grid grid-flow-col mb-6">
+                <div class="p-5 h-max" style="width:50vw">
+                    <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
+                        STATISTIQUE : Les biens préférés par departement
+                    </h1>
+                    <table class="min-w-full w-full h-full max-h-full text-sm text-left table-fixed">
+                        <thead class="border-b bg-gray-500">
+                        <tr>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Department
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Bien
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                                Count
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for bien in biensByDepartment %}
+                            <tr class="bg-gray-100 border-b hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ bien.department }}</td>
+                                    <td class="px-6 py-4">{{ bien.titre }}</td>
+                                    <td class="px-6 py-4">{{ bien.count }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="11" class="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">No records found</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        {#                                                STATISTIQUE : Nombre de favoris créés à l'année#}
-        <div class="grid grid-flow-col mb-6">
-            <div class="chart-container p-5" style="height:50vh; width:50vw">
-                <h1 class="mt-6 text-white bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
-                    STATISTIQUE : Meilleures catégories des favoris par jour
-                </h1>
-                <canvas id="chartCATFAV"></canvas>
-                {% set bestCatByDay = [] %}
-                {% for i in 1..31 %}
-                    {% set status = false %}
-                    {% for j in 0..biensByFavorite|length-1 %}
-                        {% if biensByFavorite[j] is defined %}
-                            {% set date = biensByFavorite[j][1] %}
-                            {% set year = date|date("Y") %}
-                            {% set month = date|date("m") %}
-                            {% set day = date|date("d") %}
-                            {% if day == i and year == "now"|date("Y") and month == "now"|date("m") and bestCatByDay[i] is not defined %}
-                                {% set bestCatByDay = bestCatByDay|merge([biensByFavorite[j][0]]) %}
-                                {% set status = true %}
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                    {% if status == false %}
-                        {% set bestCatByDay = bestCatByDay|merge([0]) %}
-                    {% endif %}
-                {% endfor %}
-                <script>
-                    const ctxCATFAV = document.getElementById('chartCATFAV').getContext('2d');
-                    const dataCATFAV = {
-                        labels: [
-                            {% for i in 1..31 %}
-                            '{{ i }}',
-                            {% endfor %}
-                        ],
-                        datasets: [{
-                            label: 'Meilleures catégories des favoris par jour',
-                            data: [
-                                {% for i in 0..bestCatByDay|length-1 %}
-                                {% if bestCatByDay[i] > 1 %}
-                                {% set a = [] %}
-                                {% for cat in categories %}
-                                {% if cat.intitule == bestCatByDay[i] %}
-                                {% set a = cat.id %}
-                                {{ a }},
-                                {% endif %}
-                                {% endfor %}
-                                {% else %}
-                                0,
-                                {% endif %}
-                                {% endfor %}
-                            ],
-                            fill: false,
-                            backgroundColor: [
-                                {% for i in 0..bestCatByDay|length-1 %}
-                                'rgb(0,113,206)',
-                                {% endfor %}
-                            ],
-                            tension: 0.1
-                        }]
-                    };
-                    const chartCATFAV = new Chart(ctxCATFAV, {
-                        type: 'bar',
-                        data: dataCATFAV,
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    position: 'bottom',
-                                },
-                                title: {
-                                    display: true,
-                                    text: ''
-                                }
-                            },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        callback: function(value, index, values) {
-                                            if (value == 0) {
-                                                return "Aucun";
-                                            }
-                                            //for in i 0 to categories|length-1 if value == i return categories[i].intitule
-                                            {% for cat in categories %}
-                                            if (value == {{ cat.id }}) {
-                                                return "{{ cat.intitule }}";
-                                            }
+        <div class="p-1 mb-6">
+            <div class="grid grid-flow-col mb-6">
+
+                {#                                               STATISTIQUE : Nombre de biens par catégorie#}
+                <div class="grid grid-flow-col mb-6 place-items-center">
+                    <div class="chart-container p-5 place-items-center">
+                        <h1 class="mt-6 text-white text-center bg-green-500 font-bold rounded-lg border shadow-lg content-center justify-items-center p-2">
+                            STATISTIQUE : Nombre de biens par Code Postal
+                        </h1>
+                        <div class="grid place-items-center chart-container" style="position: center; display: flex;
+                                     align-items: center; justify-content: center;
+                                     height:50vh; width:50vw">
+                            <canvas id="chartCP"></canvas>
+                        </div>
+                        <script>
+                            const ctxCP = document.getElementById('chartCP').getContext('2d');
+                            const chartCP = new Chart(ctxCP, {
+                                type: 'bar',
+                                data: {
+                                    labels: [
+                                        {% for i in 0..countByCode|length-1 %}
+                                        '{{ countByCode[i]["cp"] }}',
+                                        {% endfor %}
+                                    ],
+                                    datasets: [{
+                                        label: 'Nombre de biens par Code Postal',
+                                        data: [
+                                            {% for i in 0..countByCity|length-1 %}
+                                            {{ countByCode[i]["max"] }},
                                             {% endfor %}
+                                        ],
+                                        backgroundColor: [
+                                            {% for i in 0..countByCity|length-1 %}
+                                            {% set r = 0 %}
+                                            {% set g = random(100,200) %}
+                                            {% set b = random(150,255) %}
+                                            'rgb({{ r }}, {{ g }}, {{ b }})',
+                                            // 'rgb(0,113,206)',
+                                            {% endfor %}
+                                        ],
+                                    }],
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: {
+                                        legend: {
+                                            position: 'bottom',
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: 'Diagramme du nombre de biens par code postal'
                                         }
                                     }
                                 }
-                            }
-                        }
-                    });
-                </script>
+                            });
+                        </script>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
     <div class="p-1 mb-6">
         <div class="grid grid-flow-col mb-6">
             {#                                                            STATISTIQUE : Nombre de biens par catégorie#}
@@ -213,7 +213,6 @@
                         });
                     </script>
                 </div>
-            </div>
             {#                                                            STATISTIQUE : Nombre de biens par ville#}
             <div class="grid grid-flow-col mb-6">
                 <div class="chart-container p-5">
@@ -270,6 +269,9 @@
                 </div>
             </div>
         </div>
+        </div>
+        <div class="p-1 mb-6">
+            <div class="grid grid-flow-col mb-6">
         {#                                                STATISTIQUE : Nombre de favoris créés au mois#}
         <div class="grid grid-flow-col mb-6">
             <div class="flex justify-between">
@@ -328,6 +330,7 @@
                     </script>
                 </div>
             </div>
+        </div>
             {#                                                            STATISTIQUE : Nombre de favoris créés à l'année#}
             <div class="grid grid-flow-col mb-6">
                 <div class="chart-container p-5" style="height:40vh; width:40vw">
@@ -385,5 +388,9 @@
                 </div>
             </div>
         </div>
+        </div>
+    </div>
+    </div>
+    </div>
     </div>
 {% endblock %}
