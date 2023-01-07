@@ -134,8 +134,8 @@ class FavorisController extends AbstractController
             $mail->isSMTP();                            // Set mailer to use SMTP
             $mail->Host = 'smtp.mailtrap.io';           // Specify main and backup SMTP servers
             $mail->SMTPAuth = true;                     // Enable SMTP authentication
-            $mail->Username = '4e4655a33664cd';       // SMTP username
-            $mail->Password = '50ab7eccdd83a6';         // SMTP password
+            $mail->Username = 'b64dc9f9de43bb';       // SMTP username
+            $mail->Password = 'b8d29ee13ed6c6';         // SMTP password
             $mail->Port = 2525;                                  //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Recipients
