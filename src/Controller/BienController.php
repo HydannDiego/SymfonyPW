@@ -32,7 +32,7 @@ class BienController extends AbstractController
 
         if (isset($_POST["Categ"]) && isset($_POST["Type"]) && isset($_POST["local"])) {
 
-            $id = $_POST["Categ"];
+            $id = ($_POST["Categ"]);
             $type = $_POST["Type"];
             $local = $_POST["local"];
 
