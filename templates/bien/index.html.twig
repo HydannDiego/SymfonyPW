@@ -47,7 +47,7 @@
                     <option value="">-- Aucune option --</option>
                     {% for uneLocalisation in localisation %}
                         <option value="{{ uneLocalisation.cp }}">
-                            {{ uneLocalisation.ville }}
+                            {{ uneLocalisation.ville }} - {{ uneLocalisation.cp }}
                         </option>
                     {% endfor %}
                 </select>
