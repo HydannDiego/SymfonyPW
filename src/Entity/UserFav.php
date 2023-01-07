@@ -19,7 +19,7 @@ class UserFav
     #[ORM\Column(length: 255)]
     private ?string $email_user = null;
 
-    #[ORM\ManyToMany(targetEntity: bien::class, inversedBy: 'userFavs')]
+    #[ORM\ManyToMany(targetEntity: Bien::class, inversedBy: 'userFavs')]
     private Collection $id_bien;
 
     #[ORM\Column(length: 255)]
