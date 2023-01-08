@@ -3,16 +3,17 @@
 {% block body %}
     <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 py-24">
 
-        <div class="lg:px-32 lg:py-32 flex items-center justify-center">
-            <div>
-                <h2 class="text-5xl mb-6 font-bold uppercase italic">Qui sommes-nous ?</h2>
-                <p class="text-lg">La Société d’aménagement foncier et d’établissement rural (Safer) permet à tout
-                    porteur de projet viable –qu’il soit agricole, artisanal, de service, résidentiel ou environnemental
-                    – de s’installer en milieu rural.</p>
-                <a href="/about"
-                   class="mt-8 inline-block rounded-xl bg-green-600 text-lg px-8 py-3 hover:bg-green-600 hover:text-white duration-300">En
-                    savoir plus</a>
-            </div>
+    <div class="lg:px-32 lg:py-32 flex items-center justify-center">
+    {% if app.request.attributes.get('_route') == 'home' %}
+        <div>
+            <h2 class="text-5xl mb-6 font-bold uppercase italic">Qui sommes-nous ?</h2>
+            <p class="text-lg">La Société d’aménagement foncier et d’établissement rural (Safer) permet à tout
+                porteur de projet viable –qu’il soit agricole, artisanal, de service, résidentiel ou environnemental
+                – de s’installer en milieu rural.</p>
+            <a href="/about"
+               class="mt-8 inline-block rounded-xl bg-green-600 text-lg px-8 py-3 hover:bg-green-600 hover:text-white duration-300">En
+                savoir plus</a>
+        </div>
         </div>
         <div class="hidden lg:grid relative grid-cols-2">
             <div class="pt-24">
@@ -26,9 +27,9 @@
                      class="inset-0 w-full h-full object-cover -ml-12">
             </div>
         </div>
-    </div>
+        </div>
 
-    {% if app.request.attributes.get('_route') == 'home' %}
+
         <div class="container mx-auto px-6 grid py-2">
             <div class="mx-auto max-w-lg text-center py-8">
                 <h2 class="text-5xl mb-6 font-bold uppercase italic" id="categories">3 différents biens</h2>
@@ -82,7 +83,7 @@
                  class="w-full h-full absolute inset-0 object-cover opacity-75">
         </div>
         <div class="mx-auto max-w-lg text-center py-24">
-            <h2 class="text-5xl mb-6 font-bold uppercase italic" id="categories">2 différents types de biens</h2>
+            <h2 class="text-5xl mb-6 font-bold uppercase italic" id="categories">Voir sur la carte</h2>
             <p class="text-xl">Vous pourrez notamment retrouver les biens en location ainsi que les biens disponibles à
                 l'achat, près de chez vous.</p>
             <iframe
@@ -115,6 +116,30 @@
                         notre équipe</a>
                 </div>
             </div>
+        </div>
+    {% elseif app.request.attributes.get('_route') == 'about' %}
+        <div>
+            <h2 class="text-5xl mb-6 font-bold uppercase italic">L'Équipe</h2>
+            <p class="text-lg">Nous sommes
+                <b><a href="https://github.com/SachaFernandezSoltane">Sacha Fernandez-Soltane</a></b>,
+                <b><a href="https://github.com/Nova2402">Tien Truong</a></b> et
+                <b><a href="https://github.com/HydannDiego">Diego Poupiot</a></b>.<br>
+                Nous avons développé ce site pour l'objet d'un projet d'études.</p>
+        </div>
+        </div>
+        <div class="hidden lg:grid relative grid-cols-2">
+            <div class="pt-24">
+                <div class="relative w-full h-full">
+                    <img src="/assets/img/photoAccueil/equipe.jpg"
+                         class="inset-0 w-full h-full object-cover -mt-6 z-10">
+                </div>
+            </div>
+            <div class="relative">
+                <img src="/assets/img/photoAccueil/equipe2.jpg"
+                     class="inset-0 w-full h-full object-cover -ml-12">
+            </div>
+        </div>
+        </div>
         </div>
     {% endif %}
 {% endblock %}
