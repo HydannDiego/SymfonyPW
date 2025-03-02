@@ -39,6 +39,14 @@ de projets.
   </tbody>
 </table>
 
+### Copyright :
+
+© 2025 Sacha Fernandez Soltane, Diego Poupiot,Tien Truong Tous droits réservés.
+
+Ce projet est uniquement destiné à des fins éducatives et personnelles. Il est strictement interdit de copier ou de réutiliser ce code dans le cadre de travaux académiques ou de projets dans le cadre du programme MIAGE ou d'autres formations similaires sans autorisation préalable. Toute violation pourra entraîner des sanctions.
+
+Sacha Fernandez Soltane, Diego Poupiot,Tien Truong ne sont pas responsables en cas de triche commis par un autre étudiant de MIAGE.
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
